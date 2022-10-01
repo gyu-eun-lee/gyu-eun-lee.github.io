@@ -3,7 +3,7 @@
 title: Gyu Eun Lee
 description: mathematician | unaffiliated
 
-baseurl: /gyu-eun-lee #name of GitHub repository
+baseurl: / #name of GitHub repository
 url: "" #custom url to be used instead of GitHub repository
 email: #
 
