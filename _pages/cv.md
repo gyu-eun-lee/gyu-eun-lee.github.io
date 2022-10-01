@@ -40,7 +40,7 @@ published: true
 
 * Mathematics
   * Specialization in harmonic analysis, analysis of PDEs, nonlinear dispersive PDEs
-* Python (basic)
-* C++ (basic)
-* LaTeX (advanced)
+* Python
+* C++
+* LaTeX
 * Languages: English (native proficiency), Korean (native proficiency)
