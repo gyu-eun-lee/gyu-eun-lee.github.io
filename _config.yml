@@ -3,8 +3,7 @@
 title: Gyu Eun Lee
 description: mathematician | unaffiliated
 
-baseurl: / #name of GitHub repository
-url: "" #custom url to be used instead of GitHub repository
+url:  #custom url to be used instead of GitHub repository
 email: #
 
 # Pagination
@@ -36,17 +35,17 @@ compress_html:
   startings: []
 
 #collection
-collections:
-  projects:
-    output: true
-    permalink: /projects/:name/
-    order:
-      - shortProject.md
-      - longerProjectTitle.md
-      - redirect.md
-      - project4.md
-      - project5.md
-      - project6.md
+#collections:
+#  projects:
+#    output: true
+#    permalink: /projects/:name/
+#    order:
+#      - shortProject.md
+#      - longerProjectTitle.md
+#      - redirect.md
+#      - project4.md
+#      - project5.md
+#      - project6.md
 
 sass:
   sass_dir: /assets/css/_sass
