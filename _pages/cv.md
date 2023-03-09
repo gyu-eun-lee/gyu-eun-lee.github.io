@@ -29,18 +29,20 @@ published: true
   * Graduate student representative on the Undergraduate Studies Committee (2020 Sep. - 2021 Mar.).
     * The USC discusses and approves proposed changes to program structures and course syllabi in the Department of Mathematics.
 
+
+# Skills
+
+* Mathematics
+  * Specialization in harmonic analysis, analysis of PDEs, nonlinear dispersive PDEs, mathematical modeling
+* Python
+  * Pytorch, Tensorflow, Numpy, Pandas, Scikit-learn, Scipy
+* C++ (exposure)
+* LaTeX
+* Languages: English (native proficiency), Korean (native proficiency)
+
 # Publications
 
 * Local existence and breakdown of scattering behavior for semilinear Schrödinger equations. [Ph.D. thesis](https://escholarship.org/uc/item/3bq1678g).
 * Analyticity and infinite breakdown of regularity in mass-subcritical Hartree scattering. Preprint available at [math.AP/2103.08770](https://arxiv.org/abs/2103.08770).
 * Breakdown of regularity of scattering for mass-subcritical NLS. Int. Math. Res. Not. (2020), doi:10.1093/imrn/rnaa072. Preprint available at [math.AP/1909.06032](https://arxiv.org/abs/1909.06032).
 * Local wellposedness for the critical nonlinear Schrödinger equation on $\mathbb{T}^3$. Discrete Contin. Dyn. Syst. 39 (2019), no. 5, 2763 - 2783. Preprint available at [math.AP/1805.08944](https://arxiv.org/abs/1805.08944).
-
-# Skills
-
-* Mathematics
-  * Specialization in harmonic analysis, analysis of PDEs, nonlinear dispersive PDEs
-* Python
-* C++
-* LaTeX
-* Languages: English (native proficiency), Korean (native proficiency)
