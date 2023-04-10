@@ -13,7 +13,7 @@ published: true
 # Education
 
 * Ph.D. in Mathematics, UCLA (awarded 2021 Mar.).
-  * Advisors: Rowan Killip & Monica Vișan.
+  * Advisors: [Rowan Killip](https://www.math.ucla.edu/~killip/) & [Monica Vișan](https://www.math.ucla.edu/~visan/).
   * Ph.D. Thesis: Local existence and breakdown of scattering behavior for semilinear Schrödinger equations
 * B.S. in Mathematics with Minor in Physics, Rutgers University (awarded 2015 May).
 
@@ -25,7 +25,7 @@ published: true
   * Performed research in nonlinear dispersive PDEs in pursuit of Ph.D. degree.
   * Teaching Assistant in lower-division courses in the Department of Mathematics.
   * Primary instructor for Math 33: Ordinary Differential Equations in Fall 2020.
-  * Co-founder, organizer, and mentor for the UCLA Directed Reading Program.
+  * Co-founder, organizer, and mentor for the [UCLA Directed Reading Program](https://www.math.ucla.edu/~drp/).
   * Graduate student representative on the Undergraduate Studies Committee (2020 Sep. - 2021 Mar.).
     * The USC discusses and approves proposed changes to program structures and course syllabi in the Department of Mathematics.
 
@@ -33,7 +33,7 @@ published: true
 # Skills
 
 * Mathematics
-  * Specialization in harmonic analysis, analysis of PDEs, nonlinear dispersive PDEs, mathematical modeling
+  * Specialization in differential equations, harmonic analysis, nonlinear dispersive PDEs, mathematical modeling
 * Python
   * Pytorch, Tensorflow, Numpy, Pandas, Scikit-learn, Scipy
 * C++ (exposure)
@@ -46,3 +46,15 @@ published: true
 * Analyticity and infinite breakdown of regularity in mass-subcritical Hartree scattering. Preprint available at [math.AP/2103.08770](https://arxiv.org/abs/2103.08770).
 * Breakdown of regularity of scattering for mass-subcritical NLS. Int. Math. Res. Not. (2020), doi:10.1093/imrn/rnaa072. Preprint available at [math.AP/1909.06032](https://arxiv.org/abs/1909.06032).
 * Local wellposedness for the critical nonlinear Schrödinger equation on $\mathbb{T}^3$. Discrete Contin. Dyn. Syst. 39 (2019), no. 5, 2763 - 2783. Preprint available at [math.AP/1805.08944](https://arxiv.org/abs/1805.08944).
+
+# Teaching
+
+* [UCLA Math](https://ww3.math.ucla.edu/courses/)
+  * 32B (Calculus of Several Variables)
+  * 32T (Essential Calculus for Mathematical Biologists)
+  * 33B (Differential Equations)
+  * 42 (Introduction to Data-Driven Mathematical Modeling)
+  * 131A (Analysis)
+  * 134 (Linear and Nonlinear Systems of Differential Equations)
+  * 135 (Ordinary Differential Equations)
+  * 136 (Partial Differential Equations)
