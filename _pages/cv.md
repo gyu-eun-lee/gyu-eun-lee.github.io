@@ -18,7 +18,7 @@ published: true
 * B.S. in Mathematics with Minor in Physics, Rutgers University (awarded 2015 May).
 
 # Experiences
-
+* Senior Systems Analyst, MIT Lincoln Laboratory (2023 Jul. - present).
 * Postdoctoral Research Associate, University of Edinburgh (2021 Sep. - 2022 Sep.).
   * Performed research in stochastic nonlinear dispersive PDEs.
 * Ph.D. Student, UCLA (2015 Aug. - 2021 Mar.)

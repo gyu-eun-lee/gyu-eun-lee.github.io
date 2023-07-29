@@ -7,9 +7,7 @@ profile:
 published: true
 ---
 
-I am a recent mathematics Ph.D. and postdoc with specializations in harmonic analysis, analysis of differential equations, and nonlinear dispersive PDEs.
-I have recently left academia and am making the transition to industry.
-I am broadly interested in opportunities in (but not limited to) software development/engineering, data science, and modelling/simulation, with a preference for research positions.
-
-I am currently on the job market and open to recruiters.
-I prefer to be contacted through LinkedIn.
+I am a mathematician with specializations in harmonic analysis, analysis of differential equations, and nonlinear dispersive PDEs.
+I received my Ph.D. in Mathematics from UCLA in 2021, under the direction of my advisors [Rowan Killip](https://www.math.ucla.edu/~killip/) and [Monica Vișan](https://www.math.ucla.edu/~visan/).
+I am currently a Senior Systems Analyst at [MIT Lincoln Laboratory](https://www.ll.mit.edu/).
+If you'd like to connect, I prefer to be contacted through LinkedIn.
