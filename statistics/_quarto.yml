@@ -1,0 +1,29 @@
+project:
+  type: book
+
+book:
+  title: "Statistics"
+  author: "Gyu Eun Lee"
+  date: "11/15/2023"
+  chapters:
+    - index.qmd
+    - part: "Preface"
+      chapters:
+        - ./ch00_preface/preface.qmd
+    - part: "Foundations"
+      chapters:
+        - ./ch01_foundations/axioms.qmd
+        - ./ch01_foundations/conditional_probability.qmd
+        - ./ch01_foundations/random_variables.qmd
+
+bibliography: references.bib
+csl: aims-mathematics.csl
+
+format:
+  html:
+    theme: cosmo
+    include-in-header:
+        - file: macros.html
+        
+  pdf:
+    documentclass: scrreprt

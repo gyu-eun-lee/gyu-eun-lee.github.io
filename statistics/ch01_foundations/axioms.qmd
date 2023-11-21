@@ -1,0 +1,120 @@
+# Axioms of Probability
+
+Probability, broadly speaking, can be thought of as the study of uncertain occurrences through the quantification of uncertainty.
+Our first task is to make these notions precise.
+To that end, we begin by establishing the framework of Kolmogorov's axioms of probability.
+That said, we do not intend to undertake a comprehensive review of measure theory.
+We refer the interested reader to @Folland99 for an introduction to this subject.
+
+::: {.callout-note icon=false}
+
+## Definition: $\sigma$-algebra
+
+Let $S$ be a set, which we refer to as the *sample space*.
+A *$\sigma$-algebra* $\mcal{B}$ on $S$ is a subset of the power set $\mcal{P}[S)$ of $S$ satisfying the following properties:
+
+1. $\emp \in \mcal{B}$ (contains the empty set);
+2. If $A\in\mcal{B}$, then $A^c\in\mcal{B}$ (closure under complements);
+3. If $\{A_j\}_{j=1}^\infty \in \mcal{B}$, then $\cup_{j=1}^\infty A_j \in \mcal{B}$ (closure under countable unions).
+
+:::
+
+In probability, the sample space $S$ commonly represents the collection of all possible outcomes of an experiment.
+Under such a scenario, we refer to elements $A\in\mcal{B}$ as *events*.
+An event is a (possibly empty) collection of some of these outcomes.
+The $\sigma$-algebra $\mcal{B}$ is a structure encoding a fixed collection of outcomes under consideration.
+
+
+::: {.callout-tip icon=false}
+
+## Example
+
+Consider an experiment in which we flip a coin twice in succession and record the sequence of outcomes.
+If $H$ represents the coin landing heads, and $T$ represents the coin landing tails, then there are four possible outcomes of this experiment: $HH$, $HT$, $TH$, and $TT$.
+The sample space $S$ for this experiment is the set $\{HH, HT, TH, TT\}$.
+
+There are multiple $\sigma$-algebras we could consider for this sample space.
+There are two trivial examples, which apply to all sample spaces:
+
+1. The trivial $\sigma$-algebra $\mcal{B} = \{\emp, S\}$.
+2. The power set $\mcal{B} = \mcal{P}[S)$.
+
+An example of a $\sigma$-algebra on $S$ distinct from the above is $\mcal{B} = \{\emp, A, A^c, S\}$, where $A = \{HH\}$.
+
+:::
+
+In the above example, we were easily able to enumerate all of the possible outcomes.
+However, this only tells us what outcomes *might* be possible.
+It says nothing about which outcomes we might expect to encounter when running the experiment in real life.
+Depending on the circumstances behind the experiment, some outcomes might be more or less likely than others, and some outcomes might even be impossible.
+
+
+::: {.callout-note icon=false}
+
+## Definition: Probability measure
+
+Let $\mcal{B}$ be a $\sigma$-algebra on a sample space $S$.
+A *probability measure* on $\mcal{B}$ is a function $\bb{P}:\mcal{B}\to[0,1]$ satisfying the following properties:
+
+1. $\bb{P}[A] \geq 0$ for all $A\in\mcal{B}$ (non-negativity);
+2. $\bb{P}[S] = 1$ (unitarity);
+3. If $\{A_j\}_{j=1}^\infty$ is a sequence of pairwise disjoint events, then $\bb{P}[\cup_{j=1}^\infty A_j] = \sum_{j=1}^\infty \bb{P}[A_j]$ (countable additivity).
+
+For an event $A$, we refer to $\bb{P}[A)$ as the *probability of $A$*.
+
+:::
+
+Properties 1 - 3 are known as *Kolmogorov's axioms of probability.*
+For convenience, we also adopt the following nomenclature:
+
+::: {.callout-note icon=false}
+
+## Definition: Probability space
+
+A *probability space* is a triple $(S, \mcal{B}, \bb{P})$, where $S$ is a sample space, $\mcal{B}$ is a $\sigma$-algebra on $S$, and $\bb{P}$ is a probability measure on $\mcal{B}$.
+
+:::
+
+::: {.callout-tip icon=false}
+
+## Example
+
+We return to the example of flipping a coin twice in succession.
+We take $\mcal{P}[S]$ to be the $\sigma$-algebra of events.
+
+If we assume the coin is fair, then all four outcomes $HH, HT, TH, TT$ are equally likely, and we can define a probability measure by $\bb{P}[\{HH\}] = \bb{P}[\{HT\}] = \bb{P}[\{TH\}] = \bb{P}[\{TT\}] = \frac{1}{4}$.
+We can then uniquely extend the definition of $\bb{P}$ to all other events in $\mcal{P}[S]$ by imposing that $\bb{P}$ satisfy Kolmogorov's axioms.
+For example, we must have $\bb{P}[\{HH,TT\}] = \frac{1}{2}$, which follows from countable additivity.
+We leave it to the reader to verify that the extension is unique and consistent with the axioms.
+
+On the other hand, another definition of $\bb{P}$ could arise if the coin is not fair.
+Suppose, for example, that the coin is weighted to always hand on heads.
+Then any outcomes that include a tails, namely $HT, TH, TT$, cannot arise in practice.
+We can model this by taking $\bb{P}[\{HH\}] = 1$ and $\bb{P}[\{HT\}] = \bb{P}[\{TH\}] = \bb{P}[\{TT\}] = 0$.
+Once again, this definition can then be uniquely extended to all of $\mcal{P}[S]$ in a way that is consistent with Kolmogorov's axioms.
+
+:::
+
+We thus see that a probability measure $\bb{P}$ represents our knowledge of the quantitative behavior of an experiment's outcomes.
+
+The following proposition consists of basic properties satified by any probability measure.
+These properties follow easily from Kolmogorov's axioms, and we leave the proofs to the reader.
+
+
+::: {.callout-note icon=false}
+
+## Proposition: 
+
+Let $(S, \mcal{B}, \bb{P})$, be a probability space.
+Let $A$ and $B$ be arbitrary events.
+Then the following hold:
+
+1. $\bb{P}[\emp] = 0$;
+2. $\bb{P}[A^c] = 1 - \bb{P}[A]$;
+3. $\bb{P}[A\cup B] = \bb{P}[A] + \bb{P}[B] - \bb{P}[A\cap B]$ (inclusion-exclusion principle);
+4. If $A \subset B$, then $\bb{P}[A] \leq \bb{P}[B)$ (monotonicity);
+5. If $\{A_j\}_{j=1}^\infty$ is *any* sequence of events, then $\bb{P}[\cup_{j=1}^\infty A_j] \leq \sum_{j=1}^\infty \bb{P}[A_j]$ (countable subadditivity).
+6. If $\{A_j\}_{j=1}^\infty$ is an *increasing* sequence of events, i.e. $A_j \subset A_{j+1}$ for all $j$, then $\bb{P}[\cup_j A_j] = \lim_j \bb{P}[A_j] = \sup_j \bb{P}[A_j]$ (continuity from below).
+7. If $\{A_j\}_{j=1}^\infty$ is a *decreasing* sequence of events, i.e. $A_j \supset A_{j+1}$ for all $j$, then $\bb{P}[\cap_j A_j] = \lim_j \bb{P}[A_j] = \inf_j \bb{P}[A_j]$ (continuity from above).
+
+:::

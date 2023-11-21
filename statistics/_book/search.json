@@ -1,0 +1,37 @@
+[
+  {
+    "objectID": "ch01_foundations/axioms.html",
+    "href": "ch01_foundations/axioms.html",
+    "title": "Axioms of Probability",
+    "section": "",
+    "text": "\\[\n\\newcommand{\\mcal}[1]{\\mathcal{#1}}\n\\newcommand{\\bb}[1]{\\mathbb{#1}}\n\\newcommand{\\emp}{\\varnothing}\n\\]"
+  },
+  {
+    "objectID": "ch01_foundations/conditional_probability.html",
+    "href": "ch01_foundations/conditional_probability.html",
+    "title": "Conditional Probability and Independence",
+    "section": "",
+    "text": "\\[\n\\newcommand{\\mcal}[1]{\\mathcal{#1}}\n\\newcommand{\\bb}[1]{\\mathbb{#1}}\n\\newcommand{\\emp}{\\varnothing}\n\\]"
+  },
+  {
+    "objectID": "ch01_foundations/random_variables.html",
+    "href": "ch01_foundations/random_variables.html",
+    "title": "Random variables",
+    "section": "",
+    "text": "\\[\n\\newcommand{\\mcal}[1]{\\mathcal{#1}}\n\\newcommand{\\bb}[1]{\\mathbb{#1}}\n\\newcommand{\\emp}{\\varnothing}\n\\]"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Statistics",
+    "section": "",
+    "text": "\\[\n\\newcommand{\\mcal}[1]{\\mathcal{#1}}\n\\newcommand{\\bb}[1]{\\mathbb{#1}}\n\\newcommand{\\emp}{\\varnothing}\n\\]"
+  },
+  {
+    "objectID": "ch00_preface/preface.html",
+    "href": "ch00_preface/preface.html",
+    "title": "Preface",
+    "section": "",
+    "text": "\\[\n\\newcommand{\\mcal}[1]{\\mathcal{#1}}\n\\newcommand{\\bb}[1]{\\mathbb{#1}}\n\\newcommand{\\emp}{\\varnothing}\n\\]"
+  }
+]

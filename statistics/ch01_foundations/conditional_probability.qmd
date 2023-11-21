@@ -1,0 +1,223 @@
+# Conditional Probability and Independence
+
+It is often the case that we enter into an experiment with some external knowledge regarding its outcome.
+The idea of *conditioning* allows us to model this scenario within the framework of probability spaces.
+
+::: {.callout-tip icon=false}
+
+## Example
+
+Consider again flipping a coin twice in succession.
+We take $\mcal{P}[S]$ to be the $\sigma$-algebra of events, and assume the coin is perfectly fair.
+
+Without any conditioning, all four outcomes $HH, HT, TH, TT$ are equally likely with probability $\frac{1}{4}$.
+However, suppose we run this experiment with *a priori* knowledge that at most one flip will turn up tails.
+In that case, the outcome $TT$ is impossible, but the remaining outcomes $HH, HT, TH$ are still possible and are equally likely.
+Therefore we can say that the probability of each outcome, conditioned on at most one flip turning up tails, is $\frac{1}{3}$.
+
+:::
+
+We now make the idea of conditioning on external knowledge precise.
+
+::: {.callout-note icon=false}
+
+## Definition: Conditional probability
+
+Let $A$ and $B$ be events with $\bb{P}[B] > 0$.
+Then the *conditional probability* of $A$ given $B$, denoted $\bb{P}[A|B]$, is defined to be
+$$
+\bb{P}[A|B] = \frac{\bb{P}[A\cap B]}{\bb{P}[B]}.
+$$
+
+:::
+
+::: {.callout-tip icon=false}
+
+## Example
+
+We return to the previous example, this time looking to compute the conditional probability from the definition.
+
+The event that at most one flip turns up tails is the set of outcomes excluding $TT$, i.e. $B = \{HH, HT, TH\}$.
+For a given single outcome, say $A = \{HH\}$, we can then compute the probability of $A$ from the definition:
+$$
+\bb{P}[A|B] = \frac{\bb{P}[\{HH\}\cap\{HH, HT, TH\}]}{\bb{P}[\{HH, HT, TH\}]} = \frac{\bb{P}[\{HH\}]}{\bb{P}[\{HH, HT, TH\}]} = \frac{1/4}{3/4} = \frac{1}{3},
+$$
+in agreement with our earlier computation.
+
+:::
+
+Fixing the event $B$ being conditioned on, it is possible to regard $\bb{P}[\cdot|B]$ as a probability measure in its own right.
+Namely:
+
+::: {.callout-note icon=false}
+
+## Proposition:
+
+Let $(S,\mcal{B},\bb{P})$ be a probability space.
+Let $B\in\mcal{B}$ with $\bb{P}[B] > 0$.
+Define the *relative $\sigma$-algebra*
+$$
+\mcal{B}_B = \{A\cap B: A\in\mcal{B}\},
+$$
+and for $C_A = A\cap B\in\mcal{B}_B$ define
+$$
+\bb{P}_B[C_A] = \bb{P}[A|B].
+$$
+Then $(B,\mcal{B}_B,\bb{P}_B)$ is a probability space.
+
+:::
+
+Thus the conditional probability $\bb{P}[\cdot|B]$ can be thought of as a version of the original probability measure $\bb{P}$, where the sample space is reduced from $S$ to the event $B$ being conditioned on.
+
+Rearranging the definition of conditional probability, we arrive at a simple but extremely far-reaching consequence:
+
+::: {.callout-note icon=false}
+
+## Theorem: (Bayes' rule)
+
+Let $A$ and $B$ be events with $\bb{P}[B] > 0$.
+Then
+$$
+\bb{P}[A|B] = \frac{\bb{P}[B|A]\bb{P}[A]}{\bb{P}[B]}.
+$$
+
+:::
+
+Bayes' rule is the foundation of what is known as Bayesian statistics, which interprets probability as the measure of the degree of subjective belief in a proposition.
+$\bb{P}[A|B]$ is referred to as the *posterior probability*, or just *posterior*, while $\bb{P}[A]$ is referred to as the *prior probability*, or just *prior*.
+
+A way to interpret Bayes' rule is to imagine that we are looking to determine the probability of an event $A$.
+In the absence of any other information, the most reasonable candidate for the probability is simply $\bb{P}[A]$.
+However, suppose we have access to additional information, such as an experimental observation, that restricts the range of possibilities in some way.
+Then we should update our estimate for the probability of $A$ according to this additional information.
+We represent this updated estimate of $A$ by conditioning on the new information $B$, yielding the posterior $\bb{P}[A|B]$.
+Bayes' rule tells us how to incorporate the information in $B$ to update the prior $\bb{P}[A]$ to the posterior $\bb{P}[A|B]$, with
+$$
+\frac{\bb{P}[B|A]}{\bb{P}[B]}
+$$
+quantifying how the information $B$ supports the occurrence of the outcome $A$.
+
+In some cases, the occurrence of an event $B$ has no impact on the probability of $A$.
+
+::: {.callout-note icon=false}
+
+## Definition: Independence
+
+We say that the events $A$ and $B$ are *(statistically) independent* if $\bb{P}[A\cap B] = \bb{P}[A]\bb{P}[B]$.
+
+:::
+
+From Bayes' rule, an equivalent characterization of independence is $\bb{P}[A|B] = \bb{P}[A]$, or $\bb{P}[B|A] = \bb{P}[A]$, as long as these conditional probabilities are well-defined.
+There are considerations for how to define conditioning on events of probability $0$, but we brush those issues under the rug.
+Our choice of definition emphasizes the symmetry between the events, and generalizes more easily.
+
+Conditional probabilities and independence are notoriously tricky concepts, and there are many pitfalls of reasoning that one must be careful to avoid when working with them.
+We showcase a few examples to illustrate these ideas.
+
+
+::: {.callout-tip icon=false}
+
+## Example
+
+The simplest way in which independence arises is when two events intrinsically have no impact on another.
+Let us consider again the example of flipping a fair coin twice in succession.
+Let $A = \{\textnormal{the first flip is heads}\}$ and let $B = \{\textnormal{the second flip is heads}\}$.
+Assuming no external coupling between the two coins between the flips, clearly the occurrence of $A$ has no effect on the occurrence of $B$, and vice versa.
+We verify that this also leads to these events being independent in the statistical sense.
+$A$ consists of the outcomes $\{HH, HT\}$, while $B$ consists of $\{HH, TH\}$.
+We thus compute:
+$$
+\bb{P}[A\cap B] = \bb{P}[\{HH\}] = \frac{1}{4},
+$$
+while
+$$
+\bb{P}[A]\bb{P}[B] = \frac{1}{2}\cdot\frac{1}{2} = \frac{1}{4}.
+$$
+
+:::
+
+::: {.callout-tip icon=false}
+
+## Example
+
+Consider again flipping a fair coin twice in succession.
+Let $A = \{\textnormal{the first flip is heads}\}$ and let $B = \{\textnormal{the second flip is heads}\}$, and let $C = \{\textnormal{the first flip is equal to the second flip}\}$.
+
+Then $A$ is independent of $B$, $B$ is independent of $C$, and $C$ is independent of $A$; i.e. $A,B,C$ are *pairwise independent.*
+Intuitively this makes sense: $C$ only cares about the relationship between the first and second flips, and not about the rela
+
+We check the independence claims.
+Observe that $A = \{HH, HT\}$, $B = \{HH, TH\}$, and $C = \{HH,TT\}$.
+Thus
+$$
+\bb{P}[A\cap B] = \bb{P}[\{HH\}] = \frac{1}{4},
+$$
+while
+$$
+\bb{P}[A]\bb{P}[B] = \frac{1}{2}\cdot\frac{1}{2} = \frac{1}{4}.
+$$
+Proceeding likewise, we similarly verify the independence claims for the pairs $(B,C)$ and $(C,A)$.
+
+However, it is not true that $C$ and $A\cap B$ are independent.
+For $A\cap B = \{HH\}$, and we compute:
+$$
+\bb{P}[A\cap B\cap C] = \bb{P}[\{HH\}] = \frac{1}{4},
+$$
+while
+$$
+\bb{P}[A\cap B]\bb{P}[C] = \frac{1}{4}\frac{1}{2} = \frac{1}{8}.
+$$
+Therefore we find that
+$$
+\bb{P}[A\cap B\cap C] \neq \bb{P}[A]\bb{P}[B]\bb{P}[C],
+$$
+i.e. $(A,B,C)$ fail to be *mutually independent*, even though they are pairwise independent.
+
+:::
+
+::: {.callout-note icon=false}
+
+## Definition: Pairwise & mutual independence
+
+We say that the finite collection of events $\{A_j\}_{j=1}^N$ is *pairwise independent* if $A_j$ and $A_k$ are independent for all $j\neq k$.
+We say that $\{A_j\}_{j=1}^N$ is *mutually independent* if
+$$
+\bb{P}\left[ \bigcap_{j=1}^N A_j \right] = \prod_{j=1}^N \bb{P}[A_j].
+$$
+
+:::
+
+::: {.callout-important icon=false}
+
+The previous example shows that independence is a tricky business, and it is important to state assumptions carefully.
+Independence of events is *not* the same as the events having no relation to one another.
+We can see this with a slight change in the definition of $A$.
+With $A = \{\textnormal{the first flip is heads}\}$ as before, we find that $A\cap C = \{HH\}$.
+But with $A = \{\textnormal{the first flip is tails}\}$, we find that $A\cap C = \{TT\}$.
+
+So the exact definition of $A$ does affect *how* $C$ can occur conditioned on $A$ **at the set level.**
+Independence, however, does not look at events at the set level; it only considers the *probabilities* of the events.
+From a viewpoint considering only the probabilities of events, $A\cap C$ always has probability $\frac{1}{4}$ regardless of our two possibly choices for $A$.
+
+From a frequentist's point of view, a way to think about this is that we do not interact with experiments directly through events.
+The sample space is an abstract mathematical object that we cannot interact with directly.
+The probability measure, which we can observe emperically by performing repeated experimentation and counting frequencies of outcomes, is our only means of extracting information about the sample space.
+From that perspective, two events are independent if *we cannot establish a relationship between them through their frequencies of occurrence alone.*
+They may still be related in some way at the set level, but the existence of this relationship cannot be determined purely through repeated experimentation.
+
+We summarize this discussion as follows:
+
+> Independence only indicates the lack of a *statistically measurable* relationship between events, not the lack of a relationship altogether.
+
+:::
+
+We end with the following simple proposition, whose proof we leave to the reader.
+
+::: {.callout-note icon=false}
+
+## Proposition:
+
+Let $(A,B)$ be a pair of independent events.
+Then the pairs $(A,B^c), (A^c,B), (A^c,B^c)$ are also independent.
+
+:::

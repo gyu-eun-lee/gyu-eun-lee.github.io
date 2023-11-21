@@ -1,0 +1,94 @@
+# Random variables
+
+A random variable is a mathematical object that formalizes the idea of an experiment with an uncertain outcome.
+In this section we provide a precise definition of random variables, and also define objects that will prove to be important for studying them.
+
+::: {.callout-note icon=false}
+
+## Definition: measurable space
+
+A measurable space is a pair $(\Omega,\mcal{S})$ where $\mcal{B}$ is a $\sigma$-algebra on $S$.
+
+:::
+
+::: {.callout-note icon=false}
+
+## Example: $\mathbb{Z}$
+
+The pair $(\mathbb{Z},\mcal{P}(\mathbb{Z}))$ defines a measurable space which we will encounter often.
+
+:::
+
+::: {.callout-note icon=false}
+
+## Example: $\mathbb{R}$
+
+The pair $(\mathbb{R},\mcal{B}(\bb{R}))$, where $\mcal{B}(\bb{R})$ denotes the Borel $\sigma$-algebra on $\bb{R}$, is one of the most commonly encountered measurable spaces for probability.
+
+:::
+
+::: {.callout-note icon=false}
+
+## Definition: random variable
+
+Let $(S,\mcal{B},\bb{P})$ be a probability space.
+A *random variable* on $S$ is a measurable function $X:(S,\mcal{B},\bb{P}) \to (\Omega,\mcal{S})$, where $(\Omega,\mcal{S})$ is some measurable space.
+
+:::
+
+::: {.callout-important icon=false}
+
+The requirement of measurability will not come up often during the course of these notes.
+However, it is worth talking about briefly.
+
+Measurability of a function strongly depends on the underlying $\sigma$-algebras of the sample and target spaces.
+If $S$ is equipped with $\mcal{P}(S)$ as its $\sigma$-algebra, then any function is measurable.
+Conversely, if $S$ is equipped with the trivial $\sigma$-algebra $\{\emp,S\}$, then it is exceedingly hard for functions on $S$ to be measurable.
+Similarly, if $\Omega$ is equipped with a particularly rich $\sigma$-algebra, then it is harder for functions into $\Omega$ to be measurable, while for a sparse $\sigma$-algebra such functions are more likely to be measurable.
+
+Continuing the interpretation of elements of a $\sigma$-algebra as events, measurability imposes the requirement that a random variable 
+
+:::
+
+A random variable $X$ induces a probability measure on the target space $\Omega$ as follows:
+
+::: {.callout-note icon=false}
+
+## Definition: probability distribution
+
+Let $X:S\to\Omega$ be a random variable.
+The *probability distribution* of $X$ is the function $\bb{P}_X:\Omega\to\bb{R}$ given by
+$$
+\bb{P}_X[E] = \bb{P}[X\in E] = \bb{P}[\{s\in S: X(s)\in E\}].
+$$
+
+:::
+
+The distribution function encapsulates all of the statistical properties of $X$.
+In the frequentist interpretation, $\bb{P}_X$ indicates the frequencies of outcomes we would expect in an experiment where we sample $X(s)$ from $S$ repeatedly.
+In the Bayesian interpretation, $\bb{P}_X$ contains our beliefs regarding the statistical behavior of the values of $X$.
+As the notation suggests, the distribution function is itself a probability measure:
+
+::: {.callout-note icon=false}
+
+## Proposition:
+
+Let $X:S\to\Omega$ be a random variable.
+Then $\bb{P}_X$ defines a probability measure on $\Omega$.
+
+:::
+
+In statistics and more introductory treatments of probability, it is common to consider random variables only taking values in $\bb{R}$, $\bb{Z}$, or (at most) $\bb{R}^d$, implicitly equipped with the Borel $\sigma$-algebra.
+Although relatively little changes from the viewpoint of probability theory, specializing to real-valued random variables does afford us the particular convenience of the following definition.
+
+::: {.callout-note icon=false}
+
+## Definition: cumulative distribution function
+
+Let $X:S\to\bb{R}$ be a random variable.
+The *cumulative distribution function* of $X$ is the function $F_X:\bb{R}\to\bb{R}$ given by
+$$
+F_X(x) = \bb{P}[X\leq x] = \bb{P}[\{s\in S: X(s) \leq x\}].
+$$
+
+:::
