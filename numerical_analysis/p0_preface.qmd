@@ -1,0 +1,16 @@
+# Preface {.unnumbered}
+
+These notes are a personal undertaking as I look to develop a better working understanding of numerical analysis.
+Hence, they are written with my own mathematical background in mind.
+Therefore they may not be suitable for study by readers hailing from mathematical backgrounds different from mine.
+
+These notes draw from the following sources:
+
+### References
+
+::: {#refs}
+---
+nocite: |
+  @*
+---
+:::

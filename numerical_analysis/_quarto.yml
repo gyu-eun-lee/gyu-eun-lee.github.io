@@ -1,0 +1,64 @@
+project:
+    type: book
+    output-dir: docs
+
+book:
+    title: Numerical Analysis
+    author: Gyu Eun Lee
+    date: today
+    date-format: iso
+    page-navigation: true
+    reader-mode: true
+    sidebar:
+        search: true
+    chapters:
+      - index.qmd
+      - p0_preface.qmd
+      - part: p1_error_analysis.qmd
+        chapters:
+          - p1_representation.qmd
+      - part: p2_polynomial_interpolation.qmd
+        chapters:
+          - p2_lagrange.qmd
+          - p2_error_analysis.qmd
+
+bibliography:
+    - references.bib
+csl: aims-mathematics.csl
+
+appendix-style: default
+
+filters:
+  - custom-numbered-blocks
+format:
+    html:
+      include-in-header:
+          - file: _macros.html
+      code-fold: true
+      code-link: true
+      theme: sandstone
+      fig-width: 8
+      fig-height: 5
+
+custom-numbered-blocks:
+  groups:
+    thmlike:
+      colors: [aed9e0, aec0e0]
+      boxstyle: foldbox.simple
+      collapse: false
+  classes:
+    Theorem:
+      group: thmlike
+    Corollary:
+      group: thmlike
+    Conjecture:
+      group: thmlike
+    Proposition:
+      group: thmlike
+    Lemma:
+      group: thmlike
+    Definition:
+      colors: [b2d8b0, b0d8c2]
+      group: thmlike
+    Proof:
+      numbered: false

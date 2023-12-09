@@ -1,0 +1,2 @@
+\providecommand{\Pageref}[1]{\hfill p.\pageref{#1}}
+ [**Theorem 2.1**](p2_lagrange.qmd#thm-lagrange-interpolation-formula): Lagrange interpolation formula\Pageref{thm-lagrange-interpolation-formula}

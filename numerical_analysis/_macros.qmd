@@ -1,0 +1,13 @@
+---
+format: html
+---
+
+::: {.hidden}
+$$
+ \newcommand{\mcal}[1]{\mathcal{#1}}
+ \newcommand{\bb}[1]{\mathbb{#1}}
+ \newcommand{\mbf}[1]{\mathbf{#1}}
+ \newcommand{\ol}[1]{\overline{#1}}
+ \newcommand{\emp}{\varnothing}
+$$
+:::

@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Numerical Analysis - 2&nbsp; Lagrange Interpolation</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./p2_error_analysis.html" rel="next">
+<link href="./p2_polynomial_interpolation.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/quarto-contrib/foldbox/foldbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>macros</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="_macros_files/libs/clipboard/clipboard.min.js"></script>
+<script src="_macros_files/libs/quarto-html/quarto.js"></script>
+<script src="_macros_files/libs/quarto-html/popper.min.js"></script>
+<script src="_macros_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="_macros_files/libs/quarto-html/anchor.min.js"></script>
+<link href="_macros_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="_macros_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="_macros_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="_macros_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="_macros_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="fullcontent nav-sidebar floating">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+<div class="hidden">
+<p><span class="math display">\[
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+\newcommand{\mbf}[1]{\mathbf{#1}}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\emp}{\varnothing}
+\]</span></p>
+</div>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+<style>
+.Lemma {
+  --color1: #aed9e0;
+  --color2: #aec0e0;
+}
+.Theorem {
+  --color1: #aed9e0;
+  --color2: #aec0e0;
+}
+.Proof {
+  --color1: #c0c0c0;
+  --color2: #808080;
+}
+.Conjecture {
+  --color1: #aed9e0;
+  --color2: #aec0e0;
+}
+.Corollary {
+  --color1: #aed9e0;
+  --color2: #aec0e0;
+}
+.Proposition {
+  --color1: #aed9e0;
+  --color2: #aec0e0;
+}
+.Definition {
+  --color1: #b2d8b0;
+  --color2: #b0d8c2;
+}
+</style>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+
+
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./p2_polynomial_interpolation.html">Polynomial Interpolation</a></li><li class="breadcrumb-item"><a href="./p2_lagrange.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Lagrange Interpolation</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Numerical Analysis</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./p0_preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./p1_error_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Error Analysis</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./p1_representation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Representation of Numbers</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./p2_polynomial_interpolation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Polynomial Interpolation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./p2_lagrange.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Lagrange Interpolation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./p2_error_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Error analysis of polynomial interpolation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#the-lagrange-interpolation-formula" id="toc-the-lagrange-interpolation-formula" class="nav-link active" data-scroll-target="#the-lagrange-interpolation-formula"><span class="header-section-number">2.1</span> The Lagrange interpolation formula</a></li>
+  <li><a href="#a-linear-algebra-perspective" id="toc-a-linear-algebra-perspective" class="nav-link" data-scroll-target="#a-linear-algebra-perspective"><span class="header-section-number">2.2</span> A linear algebra perspective</a></li>
+  <li><a href="#barycentric-form" id="toc-barycentric-form" class="nav-link" data-scroll-target="#barycentric-form"><span class="header-section-number">2.3</span> Barycentric form</a></li>
+  <li><a href="#numerical-examples" id="toc-numerical-examples" class="nav-link" data-scroll-target="#numerical-examples"><span class="header-section-number">2.4</span> Numerical examples</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-polynomial-lagrange" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Lagrange Interpolation</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="the-lagrange-interpolation-formula" class="level2" data-number="2.1">
+<h2 data-number="2.1" data-anchor-id="the-lagrange-interpolation-formula"><span class="header-section-number">2.1</span> The Lagrange interpolation formula</h2>
+<p>Let <span class="math inline">\(\Pi_n\)</span> denote the space of real or complex polynomials of degree at most <span class="math inline">\(n\)</span>. Lagrange interpolation gives an exact answer to the interpolation problem with arbitrary prescribed support points:</p>
+<div id="thmLagrange" class="Theorem" title="Lagrange interpolation formula">
+<p></p><details class="Theorem fbx-simplebox fbx-default" open=""><summary><strong>Theorem 2.1: </strong>Lagrange interpolation formula</summary><div>Let <span class="math inline">\((x_j,f_j)\)</span>, <span class="math inline">\(j=0,\ldots,n\)</span> be arbitrary support points with <span class="math inline">\(x_j\neq x_k\)</span> for <span class="math inline">\(j\neq k\)</span>. Then there exists a unique polynomial <span class="math inline">\(P\in\Pi_n\)</span> with <span class="math display">\[
+P(x_j) = f_j, ~j=0,\ldots,n,
+\]</span> given by <span class="math display">\[
+P(x) = \sum_j f_j \prod_{k:k\neq j} \frac{x-x_k}{x_j-x_k}.
+\]</span><p></p>
+</div></details>
+</div>
+<div id="Proof*-2.1" class="Proof">
+<p></p><details class="Proof fbx-default closebutton"><summary><strong>Proof</strong></summary><div>For uniqueness, let <span class="math inline">\(P, Q\)</span> be two polynomials in <span class="math inline">\(\Pi_n\)</span> satisfying <span class="math inline">\(P(x_j) = Q(x_j) = f_j\)</span> for <span class="math inline">\(j=0,\ldots,n\)</span>. Then <span class="math inline">\(P-Q\)</span> is a polynomial of degree <span class="math inline">\(n\)</span> with at least <span class="math inline">\(n+1\)</span> roots at <span class="math inline">\(x_0,\ldots,x_n\)</span>. Therefore <span class="math inline">\(P-Q = 0\)</span>, which establishes uniqueness.<p></p>
+<p>For existence, it suffices to verify that the <em>Lagrange basis polynomials</em> <span class="math display">\[
+L_j(x) = \prod_{k\neq j} \frac{x-x_k}{x_j-x_k}
+\]</span> are polynomials of degree at most <span class="math inline">\(n\)</span>, and that the formula for <span class="math inline">\(P(x)\)</span> satisfies the required conditions. The former claim is obvious upon expanding the product. For the latter claim, we observe that <span class="math display">\[
+L_j(x_i) = \prod_{k\neq j} \frac{x_i-x_k}{x_j-x_k} = \delta_{ij},
+\]</span> where <span class="math inline">\(\delta_{ij}\)</span> denotes the Kronecker delta. Therefore <span class="math display">\[
+P(x_i) = \sum_j f_j\delta_{ij} = f_i,
+\]</span> and the proof is complete.</p>
+</div></details>
+</div>
+<p>The utility of Lagrange interpolation breaks down as follows:</p>
+<p><strong>Advantages:</strong></p>
+<ul>
+<li><p>Lagrange interpolation provides a clean theoretical result guaranteeing the existence of a unique interpolating polynomial. It is thus sometimes called upon when interpolation is used as an intermediary step in the theory of other numerical algorithms.</p></li>
+<li><p>The dependence of <span class="math inline">\(P(x)\)</span> on the support ordinates <span class="math inline">\(f_j\)</span> is simple and linear, which makes it convenient for solving multiple interpolation problems with a shared set of support abcissae <span class="math inline">\(x_j\)</span> but varying ordinates.</p></li>
+</ul>
+<p><strong>Disadvantages:</strong></p>
+<ul>
+<li><p>Lagrange interpolation is ill-suited for calculations involving large numbers of support points. Evaluating the Lagrange interpolant requires evaluation of the basis polynomials <span class="math inline">\(L_j\)</span>, which requires many multiplications.</p></li>
+<li><p>If the support points are changed, the polynomial has to be calculated from scratch. However, rewriting the Lagrange interpolant in <em>barycentric form</em> can reduce the number of required computations when the set of support points is changed by the addition of a new point, as we will describe shortly.</p></li>
+</ul>
+</section>
+<section id="a-linear-algebra-perspective" class="level2" data-number="2.2">
+<h2 data-number="2.2" data-anchor-id="a-linear-algebra-perspective"><span class="header-section-number">2.2</span> A linear algebra perspective</h2>
+<p>Polynomial interpolation is fundamentally a linear algebra problem. Given support points <span class="math inline">\((x_j,f_j)\)</span>, solving for <span class="math inline">\(P\in \Pi_n\)</span> with <span class="math inline">\(P(x_j) = f_j\)</span> amounts to solving the system <span class="math display">\[
+\begin{aligned}
+    a_0x_0^0 + a_1x_0^1 + \cdots + a_nx_0^n &amp;= f_0,\\
+    a_0x_1^0 + a_1x_1^1 + \cdots + a_nx_1^n &amp;= f_1,\\
+    &amp;~~~\vdots\\
+    a_0x_n^0 + a_1x_n^1 + \cdots + a_nx_n^n &amp;= f_n
+\end{aligned}
+\]</span> for the coefficients <span class="math inline">\(a_0,\ldots,a_n\)</span>. Converting to matrix form, this can be written as <span class="math display">\[
+\begin{pmatrix}
+    1 &amp; x_0 &amp; x_0^2 &amp; \cdots &amp; x_0^n\\
+    1 &amp; x_1 &amp; x_1^2 &amp; \cdots &amp; x_1^n\\
+    \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots\\
+    1 &amp; x_n &amp; x_n^2 &amp; \cdots &amp; x_n^n
+\end{pmatrix}
+\begin{pmatrix}
+    a_0\\
+    a_1\\
+    \vdots\\
+    a_n
+\end{pmatrix}
+=
+\begin{pmatrix}
+    f_0\\
+    f_1\\
+    \vdots\\
+    f_n
+\end{pmatrix}.
+\]</span> The matrix on the LHS is the well-known <a href="https://en.wikipedia.org/wiki/Vandermonde_matrix">Vandermonde matrix</a>. The solution of the interpolation problem amounts to inverting this matrix (which also establishes existence and uniqueness, which is conditional on <span class="math inline">\(x_j\neq x_k\)</span>, <span class="math inline">\(j\neq k\)</span>.)</p>
+<p>Inverting the Vandermonde matrix is an expensive operation, especially as the number of support points <span class="math inline">\(n\)</span> grows large. Lagrange interpolation avoids this with a change of basis. The Vandermonde matrix arises because we are considering the interpolation problem over the monomial basis <span class="math inline">\(\{1,x,\ldots,x_n\}\)</span> of <span class="math inline">\(\Pi_n\)</span>. By replacing this basis with the Lagrange basis <span class="math inline">\(\{L_0,\ldots,L_n\}\)</span>, and using that <span class="math inline">\(L_j(x_k) = \delta_{jk}\)</span>, we can write the system <span class="math inline">\(P(x_j) = \sum_k b_k L_k(x_j) = f_j\)</span> as <span class="math display">\[
+\begin{aligned}
+b_0 L_0(x_0) = b_0 &amp;= f_0,\\
+b_1 L_1(x_1) = b_1 &amp;= f_1,\\
+&amp;~~~\vdots\\
+b_n L_n(x_n) = b_n &amp;= f_n.
+\end{aligned}
+\]</span> In matrix form we find that <span class="math inline">\(I\mbf{b} = \mbf{f}\)</span>, with <span class="math inline">\(\mbf{b} = (b_0,\ldots,b_n)\)</span>, <span class="math inline">\(\mbf{f} = (f_0,\ldots,f_n)\)</span>. That is, we have effectively pre-inverted the Vandermonde matrix using our choice of basis. The cost is that our basis polynomials are significantly more complicated than the monomial basis.</p>
+</section>
+<section id="barycentric-form" class="level2" data-number="2.3">
+<h2 data-number="2.3" data-anchor-id="barycentric-form"><span class="header-section-number">2.3</span> Barycentric form</h2>
+<p>The Lagrange basis polynomials have the following convenient property:</p>
+<div id="propLagrangeBasisSum" class="Proposition">
+<p></p><details class="Proposition fbx-simplebox fbx-default" open=""><summary><strong>Proposition 2.2</strong></summary><div>Let <span class="math inline">\(x_j\)</span>, <span class="math inline">\(j=0,\ldots,n\)</span> be fixed and pairwise distinct, and let <span class="math inline">\(L_j\)</span> denote the corresponding Lagrange basis polynomials. Then <span class="math inline">\(\sum_j L_j = 1\)</span>.<p></p>
+</div></details>
+</div>
+<div id="Proof*-2.2" class="Proof">
+<p></p><details class="Proof fbx-default closebutton"><summary><strong>Proof</strong></summary><div><span class="math inline">\(Q = \sum_j L_j\)</span> satisfies <span class="math inline">\(Q(x_k) = \sum_j \delta_{jk} = 1\)</span> for <span class="math inline">\(k=0,\ldots,n\)</span>. Therefore <span class="math inline">\(Q\)</span> is a polynomial of degree <span class="math inline">\(n\)</span> taking the value <span class="math inline">\(1\)</span> on <span class="math inline">\(n+1\)</span> distinct points. Hence <span class="math inline">\(Q\)</span> must be identically <span class="math inline">\(1\)</span>.<p></p>
+</div></details>
+</div>
+<p>We now consider the problem of adding a new point <span class="math inline">\((x_{n+1},f_{n+1})\)</span> to the set of support points. To compute the Lagrange interpolant from scratch with the given formula would be an expensive endeavor, as we would need to compute each <span class="math inline">\(L_j\)</span> using the updated set of support points. However, we can reduce the computational burden of the update by rewriting the Lagrange interpolant in <em>barycentric form.</em></p>
+<p>First, we fix the support abcissae <span class="math inline">\(x_0,\ldots,x_n\)</span>. We observe that the Lagrange basis can be written in the following form: <span class="math display">\[
+L_j(x) = \prod_k (x-x_k) \cdot \frac{\prod_{k:k\neq j} (x_j-x_k)^{-1}}{x-x_j} = \ell(x)\frac{w_j}{x-x_j},
+\]</span> where <span class="math display">\[
+\ell(x) = \prod_j (x-x_j), w_j = \prod_{k:k\neq j} (x_j-x_k)^{-1}.
+\]</span></p>
+<div id="defBarycentricWeights" class="Definition" title="Barycentric weights">
+<p></p><details class="Definition fbx-simplebox fbx-default" open=""><summary><strong>Definition 2.3: </strong>Barycentric weights</summary><div>The coefficients <span class="math display">\[
+w_j = \prod_{k:k\neq j} (x_j-x_k)^{-1}
+\]</span> are called the <em>barycentric weights</em>.<p></p>
+</div></details>
+</div>
+<p>We can therefore write <span class="math display">\[
+\sum_j f_j \prod_{k:k\neq j} \frac{x-x_k}{x_j-x_k} = \ell(x)\sum_j f_j\frac{w_j}{x-x_j}.
+\]</span></p>
+<div id="defFirstBarycentricForm" class="Definition" title="First barycentric form">
+<p></p><details class="Definition fbx-simplebox fbx-default" open=""><summary><strong>Definition 2.4: </strong>First barycentric form</summary><div>The expression <span class="math display">\[
+P(x) = \ell(x)\sum_j f_j\frac{w_j}{x-x_j}
+\]</span> is called the <em>first barycentric form</em> of the Lagrange interpolating polynomial.<p></p>
+</div></details>
+</div>
+<p>If the barycentric weights <span class="math inline">\(w_j\)</span> are pre-computed, then the first barycentric form can be updated to accommodate a new support point <span class="math inline">\((x_{n+1},f_{n+1})\)</span>. The update steps go as follows:</p>
+<ol type="1">
+<li><p><span class="math inline">\(\ell(x)\)</span> is updated by multiplying a factor of <span class="math inline">\((x-x_{n+1})\)</span>.</p></li>
+<li><p>For <span class="math inline">\(j=0,\ldots,n\)</span>, <span class="math inline">\(w_j\)</span> is updated by dividing the factor <span class="math inline">\((x_j-x_{n+1})\)</span>.</p></li>
+<li><p>The <span class="math inline">\(j=n+1\)</span> term is appended to the summation.</p></li>
+</ol>
+<p>This update therefore costs <span class="math inline">\(\mcal{O}(n)\)</span> operations.</p>
+<p>The first barycentric form also improves on the number of flops needed to evaluate the Lagrange polynomial. Evaluating <span class="math inline">\(L_j(x)\)</span> from its definition requires <span class="math inline">\(\mcal{O}(n)\)</span> multiplications, and therefore evaluating the original form of the Lagrange polynomial requires <span class="math inline">\(\mcal{O}(n^2)\)</span> operations. But assuming that the barycentric weights are pre-computed and stored, evaluating the first barycentric form requires only the multiplication of <span class="math inline">\(\ell(x)\)</span> and the evaluated summation, which gives <span class="math inline">\(\mcal{O}(n)\)</span> multiplications.</p>
+<p>A further transformation can be used to reduce the cost of evaluation even further. We write <span class="math display">\[
+1 = \sum_j L_j(x) = \ell(x)\sum_j \frac{w_j}{x-x_j},
+\]</span> and divide the first barycentric form through by this expression, which cancels the <span class="math inline">\(\ell\)</span> factor and yields the following:</p>
+<div id="dfnSecondBarycentricForm" class="Definition" title="Second barycentric form">
+<p></p><details class="Definition fbx-simplebox fbx-default" open=""><summary><strong>Definition 2.5: </strong>Second barycentric form</summary><div>The expression <span class="math display">\[
+P(x) = \frac{\sum_j f_j\frac{w_j}{x-x_j}}{\sum_j \frac{w_j}{x-x_j}}.
+\]</span> is called the <em>second barycentric form</em> of the Lagrange interpolating polynomial; alternatively, it is called the <em>true barycentric form</em>.<p></p>
+</div></details>
+</div>
+<p>One advantage of the second barycentric form is that it eliminates the evaluation of <span class="math inline">\(\ell(x)\)</span> altogether. The evaluation of the second barycentric form requires <span class="math inline">\(\mcal{O}(n)\)</span> multiplications and <span class="math inline">\(\mcal{O}(n)\)</span> additions. Moreover, the appearance of <span class="math inline">\(w_j(x-x_j)^{-1}\)</span> in both the numerator and denominator helps to avoid the occurrence of catastrophic cancellation when <span class="math inline">\(P(x)\)</span> is evaluated at a value of <span class="math inline">\(x\)</span> close to a node <span class="math inline">\(x_j\)</span>.</p>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning: Indeterminate forms
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A practical implementation of Lagrange interpolation using the barycentric formulas should manually specify <span class="math inline">\(P(x_j) = f_j\)</span> to avoid indeterminate forms or divide-by-zero errors.</p>
+</div>
+</div>
+</section>
+<section id="numerical-examples" class="level2" data-number="2.4">
+<h2 data-number="2.4" data-anchor-id="numerical-examples"><span class="header-section-number">2.4</span> Numerical examples</h2>
+<p>We now showcase some numerical examples of Lagrange interpolation in action.</p>
+<div class="cell" data-execution_count="1">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy.typing <span class="im">as</span> npt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> random <span class="im">import</span> random</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell" data-execution_count="2">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> lagrange_polynomial(X: npt.NDArray[np.float64], F: npt.NDArray[np.float64]):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> poly(x):</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        L <span class="op">=</span> np.ones(<span class="bu">len</span>(X))</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(X)):</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>            L[j] <span class="op">=</span> np.prod(np.divide(x<span class="op">-</span>X, X[j]<span class="op">-</span>X, out<span class="op">=</span>np.ones(<span class="bu">len</span>(X)), where<span class="op">=</span>X<span class="op">!=</span>X[j]))</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.dot(F,L)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> poly</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell" data-execution_count="3">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">7</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>F <span class="op">=</span> np.exp(<span class="op">-</span>np.square(X))</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>P <span class="op">=</span> lagrange_polynomial(X,F)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">5.1</span>,<span class="fl">5.1</span>,<span class="dv">200</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> [P(t) <span class="cf">for</span> t <span class="kw">in</span> T]</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>plt.plot(T, np.exp(<span class="op">-</span>np.square(T)), label<span class="op">=</span><span class="st">'exp(-x^2)'</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>plt.plot(T, y, label<span class="op">=</span><span class="st">'Interpolated'</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>plt.plot(X, F, <span class="st">'o'</span>, label<span class="op">=</span><span class="st">'Support points'</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Lagrange interpolation for f(x) = exp(-x^2)'</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'x'</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'y'</span>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>plt.grid()</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="p2_lagrange_files/figure-html/cell-4-output-1.png" width="675" height="449" class="figure-img"></p>
+<figcaption class="figure-caption">Lagrange interpolation of exp(-x^2) with 7 support points</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Our first example implements the original Lagrange interpolation formula. We sample <span class="math inline">\(7\)</span> evenly spaced points from the function <span class="math inline">\(e^{-x^2}\)</span> on the interval <span class="math inline">\([-5,5]\)</span> and plot the degree-<span class="math inline">\(6\)</span> Lagrange interpolant. We see that the Lagrange interpolant performs reasonably well in the interior of the interval, but produces large errors as we move toward the edges of the interval. Outside the interval containing the support points, the error diverges to <span class="math inline">\(\infty\)</span>.</p>
+<div class="cell" data-execution_count="4">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">5.1</span>,<span class="fl">5.1</span>,<span class="dv">200</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>plt.plot(T, np.exp(<span class="op">-</span>np.square(T)), label<span class="op">=</span><span class="st">'exp(-x^2)'</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> N <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>,<span class="dv">15</span>,<span class="dv">4</span>):</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">5</span>,<span class="dv">5</span>,N)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    F <span class="op">=</span> np.exp(<span class="op">-</span>np.square(X))</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    P <span class="op">=</span> lagrange_polynomial(X,F)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> [P(t) <span class="cf">for</span> t <span class="kw">in</span> T]</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    plt.plot(T, y, <span class="st">'--'</span>, label<span class="op">=</span><span class="st">'Degree </span><span class="sc">{deg}</span><span class="st">'</span>.<span class="bu">format</span>(deg<span class="op">=</span>N<span class="op">-</span><span class="dv">1</span>))</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Approximation accuracy vs. support points'</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'x'</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'y'</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>plt.grid()</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="p2_lagrange_files/figure-html/cell-5-output-1.png" width="662" height="449" class="figure-img"></p>
+<figcaption class="figure-caption">Lagrange interpolation with increasing number of support points</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>We compute multiple Lagrange interpolants to see if increasing the number of support points helps. Unfortunately, we actually observe the opposite: although the approximation improves in the center of the interval, near the edges the approximation worsens as we increase the number of support points.</p>
+<p>This is, in fact, a problem that is generic to polynomial interpolation, and is known as <em>Runge’s phenomenon.</em> We will explore it in more detail in a following section. For now, we leave the reader with the following warnings regarding the practical application of polynomial interpolation:</p>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning: Extrapolating from polynomial interpolation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Polynomial interpolation does not extrapolate well outside the interval containing the support points. In general, we expect the error of polynomial interpolation to diverge to <span class="math inline">\(\pm\infty\)</span> outside the interval.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning: Runge’s phenomenon
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Increasing the number of interpolation points does not necessarily improve the accuracy of polynomial interpolation. In particular, there is a tendency for the approximation error to worsen near the boundaries of the interpolation interval.</p>
+</div>
+</div>
+<div class="cell" data-execution_count="5">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> barycentric_weights(X: npt.NDArray[np.float64]):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    W <span class="op">=</span> np.ones(<span class="bu">len</span>(X))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(X)):</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        W[j] <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> np.prod(X[j]<span class="op">-</span>X, where<span class="op">=</span>X<span class="op">!=</span>X[j])</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> W</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> first_barycentric(X: npt.NDArray[np.float64], F: npt.NDArray[np.float64]):</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    W <span class="op">=</span> barycentric_weights(X)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> poly(x):</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.prod(x<span class="op">-</span>X) <span class="op">*</span> np.dot(F, np.divide(W, x<span class="op">-</span>X, out<span class="op">=</span>np.copy(F), where<span class="op">=</span>x<span class="op">!=</span>X))</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> poly</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> second_barycentric(X: npt.NDArray[np.float64], F: npt.NDArray[np.float64]):</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    W <span class="op">=</span> barycentric_weights(X)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> poly(x):</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.dot(F,np.divide(W, x<span class="op">-</span>X, out<span class="op">=</span>np.copy(F), where<span class="op">=</span>x<span class="op">!=</span>X)) <span class="op">/</span> np.<span class="bu">sum</span>(np.divide(W, x<span class="op">-</span>X, out<span class="op">=</span>np.copy(F), where<span class="op">=</span>x<span class="op">!=</span>X))</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> poly</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell" data-execution_count="6">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>minPoints <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>maxPoints <span class="op">=</span> <span class="dv">151</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>step <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>numTrials <span class="op">=</span> <span class="dv">500</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>sptPts <span class="op">=</span> np.arange(minPoints, maxPoints, step, dtype<span class="op">=</span><span class="bu">int</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>base_time <span class="op">=</span> np.empty(<span class="dv">0</span>, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> N <span class="kw">in</span> sptPts:</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">5</span>,<span class="dv">5</span>,N)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    F <span class="op">=</span> np.exp(<span class="op">-</span>np.square(X))</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    P <span class="op">=</span> lagrange_polynomial(X,F)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    st <span class="op">=</span> time.process_time()</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(numTrials):</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>        P(random())</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    et <span class="op">=</span> time.process_time()</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    base_time <span class="op">=</span> np.append(base_time, et<span class="op">-</span>st)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>first_bary_time <span class="op">=</span> np.empty(<span class="dv">0</span>, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> N <span class="kw">in</span> sptPts:</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">5</span>,<span class="dv">5</span>,N)</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    F <span class="op">=</span> np.exp(<span class="op">-</span>np.square(X))</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    P <span class="op">=</span> first_barycentric(X,F)</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    st <span class="op">=</span> time.process_time()</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(numTrials):</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>        P(random())</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    et <span class="op">=</span> time.process_time()</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    first_bary_time <span class="op">=</span> np.append(first_bary_time, et<span class="op">-</span>st)</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>second_bary_time <span class="op">=</span> np.empty(<span class="dv">0</span>, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> N <span class="kw">in</span> sptPts:</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">5</span>,<span class="dv">5</span>,N)</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    F <span class="op">=</span> np.exp(<span class="op">-</span>np.square(X))</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>    P <span class="op">=</span> second_barycentric(X,F)</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>    st <span class="op">=</span> time.process_time()</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(numTrials):</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>        P(random())</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>    et <span class="op">=</span> time.process_time()</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>    second_bary_time <span class="op">=</span> np.append(second_bary_time, et<span class="op">-</span>st)</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>plt.plot(sptPts, base_time, <span class="st">'o'</span>, fillstyle<span class="op">=</span><span class="st">'none'</span>, label<span class="op">=</span><span class="st">'base'</span>)</span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>plt.plot(sptPts, first_bary_time, <span class="st">'&lt;'</span>, fillstyle<span class="op">=</span><span class="st">'none'</span>, label<span class="op">=</span><span class="st">'first barycentric form'</span>)</span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>plt.plot(sptPts, second_bary_time, <span class="st">'&gt;'</span>, fillstyle<span class="op">=</span><span class="st">'none'</span>, label<span class="op">=</span><span class="st">'second barycentric form'</span>)</span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Evaluation time vs. support points'</span>)</span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Support points'</span>)</span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'CPU time (s)'</span>)</span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>plt.grid()</span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="p2_lagrange_files/figure-html/cell-7-output-1.png" width="663" height="449" class="figure-img"></p>
+<figcaption class="figure-caption">Performance comparison of Lagrange interpolation implementations</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Lastly, we test the speed of evaluation of the Lagrange polynomial for the three formulas we have provided. We use the three formulas to compute <span class="math inline">\(P(x)\)</span> for evenly spaced support points numbering from <span class="math inline">\(10\)</span> to <span class="math inline">\(150\)</span>, and compute the time each formula takes to evaluate <span class="math inline">\(P(x)\)</span> for <span class="math inline">\(500\)</span> uniformly random values of <span class="math inline">\(x\)</span> in <span class="math inline">\([0,1]\)</span>. We find that using the original formula for Lagrange interpolation incurs a fairly significant running time penalty as the number of support points grows, while the first and second barycentric formulas manage to maintain consistent running times.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./p2_polynomial_interpolation.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Polynomial Interpolation</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./p2_error_analysis.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Error analysis of polynomial interpolation</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

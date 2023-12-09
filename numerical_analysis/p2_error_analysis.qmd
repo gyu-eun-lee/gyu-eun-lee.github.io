@@ -1,0 +1,74 @@
+# Error analysis of polynomial interpolation
+
+We now proceed to study the approximation error between a function and its polynomial interpolation away from the support points.
+We first pause to establish some notation.
+
+::: {.Definition #dfnSubpolynomial}
+
+Let $(x_j,f_j)$, $j=0,\ldots,n$ be given support points.
+For any multi-index $\mbf{j} = (j_0,\ldots,j_k)$ with $0\leq j_0 < \ldots < j_k \leq n$, we define $P_\mbf{j}\in\Pi_k$ to be the polynomial in $\Pi_k$ which interpolates the support points $(x_{j_i}, f_{j_i})$.
+That is,
+$$
+P_\mbf{j}(x_{j_i}) = f_{j_i}, ~i=0,\ldots,k.
+$$
+
+We also write $P_\mbf{j} = P_{j_0j_1\ldots j_k}$.
+:::
+
+::: {.Definition #dfnAbcissaInterval}
+
+Let $x_j$, $j=0,\ldots,n$ be given support abcissae, and let $\ol{x}\in\bb{R}$ be arbitrary.
+We denote by $I[x_0,\ldots,x_n,\ol{x}]$ the smallest interval containing the set $\{x_0,\ldots,x_n,\ol{x}\}$.
+
+:::
+
+## Upper bounds on the interpolation error
+
+Under sufficiently strong regularity assumptions, we can provide upper bounds on the approximation error from polynomial interpolation.
+
+::: {.Theorem #thmPolynomialInterpolationError}
+
+Assume $f$ is $n+1$ times differentiable.
+Then for every $\ol{x}\in\bb{R}$, there exists $\xi\in I[x_0,\ldots,x_n,\ol{x}]$ such that
+$$
+f(\ol{x}) - P_{01\ldots n}(\ol{x}) = \frac{\omega(\ol{x})f^{(n+1)}(\xi)}{(n+1)!}
+$$
+where
+$$
+\omega(x) = \prod_j (x-x_j).
+$$
+
+:::
+
+::: {.Proof}
+For brevity we write $P = P_{01\ldots n}$.
+For $\ol{x} = x_j$, the claim is trivial since $f(x_j) = P(x_j)$ and $\omega(x_j) = 0$.
+
+So assume $\ol{x}\neq x_j$ for any $j=0,\ldots,n$.
+Then $\omega(\ol{x})\neq 0$, so there exists a constant $K$ such that
+$$
+F(x) = f(x) - P(x) - K\omega(x)
+$$
+vanishes at $x = \ol{x}$.
+
+Since $F(x_j) = 0$ for all $j$ by inspection, $F$ has at least $n+2$ zeros in the interval $I = I[x_0,\ldots,x_n,\ol{x}]$.
+By Rolle's theorem, $F'$ has at least $n+1$ zeros in $I$, $F''$ has at least $n$ zeros, and lastly $F^{(n+1)}$ has at least one zero $\xi\in I$.
+Since $P$ is of degree at most $n$, $P^{(n+1)} = 0$, and thus
+$$
+F^{(n+1)}(\xi) = f^{(n+1)}(\xi) - K(n+1)! = 0.
+$$
+Thus we find that 
+$$
+K = \frac{f^{(n+1)}(\xi)}{(n+1)!}
+$$
+for some $\xi\in I$.
+From the definition of $K$ it follows that
+$$
+f(\ol{x}) - P(\ol{x}) = K\omega(\ol{x}),
+$$
+and substituting the value of $K$ completes the proof.
+
+:::
+
+Therefore the rate of growth of the approximation error with respect to the number of support points is tied to the rate of growth of the function's derivatives.
+A function whose higher-order derivaties increase rapidly may exhibit poor approximation accuracy in response to increasing the number of support points.

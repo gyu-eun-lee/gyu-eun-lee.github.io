@@ -1,0 +1,53 @@
+# Polynomial Interpolation
+
+Consider a family of functions $\Phi$ of a single variable $x$ parametrized by $n+1$ unknown parameters $a_0,\ldots,a_n$, i.e.
+
+$$
+\Phi(x;a_0,\ldots,a_n).
+$$
+
+Given data points $(x_j,f_j)$, $i=0,\ldots,n$, with $x_j\neq x_k$ for $i\neq j$, the *interpolation problem* for $\Phi$ is to find values of the parameters $a_j$ such that
+
+$$
+\Phi(x_j;a_0,\ldots,a_n) = f_j, ~i = 0,\ldots,n.
+$$
+
+The pairs $(x_j,f_j)$ are also called *support points*, $x_j$ *support abcissae*, and $f_j$ *support ordinates*.
+In addition, the values of derivatives of $\Phi$ may also be prescribed.
+
+A typical instance of this problem arises when one seeks an approximation to an unknown function $f$ whose values (and possibly values of its derivatives) are specified at a finite number of points, i.e. $f(x_j) = f_j$ for $j=0,\ldots,n$.
+As such, we may occasionally conflate the general interpolation problem with this one.
+
+An interpolation problem is called *linear* if $\Phi$ depends linearly on the parameters $a_j$, i.e.
+
+$$
+\Phi(x;a_0,\ldots,a_n) = \sum_j a_j\Phi_j(x),
+$$
+
+and *nonlinear* otherwise.
+
+In this chapter, we focus on *polynomial interpolation*, a linear interpolation problem in which
+$$
+\Phi(x;a_0,\ldots,a_n) = \sum_j a_jx^j.
+$$
+
+Polynomial interpolation is important because it is a common intermediate step in other numerical algorithms.
+It sees application in:
+
+1. numerical quadrature;
+
+2. multigrid methods for numerical integration of ODEs;
+
+3. computer multiplication algorithms;
+
+and elsewhere.
+
+This chapter is organized as follows:
+
+1. We begin with an analysis of Lagrange interpolation, the simplest polynomial interpolation algorithm.
+Already at this stage we can see the emergence of some important considerations, such as Runge's phenomenon, which motivates the next section.
+
+2. We proceed to analyze the error of polynomial interpolation and its dependence on the choice of support abcissae.
+We provide some upper bounds on the maximum interpolation error, but also some lower bounds and cautionary examples against blindly trusting the output of polynomial interpolation.
+
+3. We then discuss more advanced schemes beyond Lagrange interpolation, including Neville's algorith, Newton interpolation, and Hermite interpolation.
