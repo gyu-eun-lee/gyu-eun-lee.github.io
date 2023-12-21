@@ -1,1 +1,26 @@
-# Error Analysis
+# Error analysis
+
+A study of numerical analysis must begin by addressing the assessment of errors.
+Errors arise from various sources and propagate through the course of a numerical method.
+Broadly speaking, we come across three types of errors in numerical analysis:
+
+1. Data errors:
+    a. These errors are present in the inputs and are beyond the control of the numerics.
+    They may arise, for instance, due to physical imperfections in measuring devices.
+2. Roundoff errors:
+    b. These errors result from the fact that digital computers cannot represent real numbers to infinitesimal precision.
+    To an extent this is a hardware limitation, but sometimes we incur roundoff errors intentionally to achieve better efficiency.
+3. Approximation errors:
+    c. These errors arise from the limitations of the numerical method itself.
+    They include truncation errors from a finite pursuit of an approximation scheme, or discretization errors arising from how one divides up a continuous region into discrete subregions.
+
+In this chapter, we focus on the analysis of roundoff errors.
+The analysis of approximation errors is relegated to later chapters, as they are specific to each approximation method.
+Many numerical schemes can, theoretically, be continued indefinitely to reach arbitrary precision.
+However, the presence of roundoff errors means that after a certain point, roundoff errors can either dominate the approximation error or propagate through the numerical scheme and poison the scheme's precision.
+Therefore roundoff errors often present a practical barrier to the precision of a numerical scheme.
+As this limitation exists for all approximation algorithms implemented in a digital computer, it is an important baseline to cover before any specific approximation algorithm is introduced.
+
+Digital algorithms must always contend with the limitations of their ability to represent numbers, and this also leads to accumulation of errors over the course of an algorithm's execution.
+Understanding the propagation of errors through an algorithm is therefore another critical prerequisite to designing good numerical methods.
+We will show that operations that seem equivalent in the continuum fail to be equivalent in the digital world, leading to a need for care when using computers to complete a given task.

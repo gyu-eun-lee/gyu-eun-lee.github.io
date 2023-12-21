@@ -1,1 +1,85 @@
-# Representation of Numbers
+# Digital representation of numbers
+
+A fundamental limitation of digital computers is that they must represent real numbers with finite resources.
+A computer typically uses a fixed finite number $n$ of places to represent a number, which we refer to as the *word length*.
+The word length is typically determined at the hardware level.
+The maximum word length has evolved alongside the proliferation of digital computing.
+$8$-bit microprocessors were the first widely used microprocessors in the computer industry, and could store binary representations of numbers with a maximum word length of $8$.
+In the modern era $64$-bit processing is widespread, and can represent numbers with a maximum word length of $64$.
+Methods exist to represent numbers with a higher precision by augmenting the word length.
+For instance, in a $32$-bit processor one can use $32$ binary bits to represent a number, yielding something known as *single-precision format.*
+Extending this to $64$ bits yields representations of numbers in *double-precision format.*
+
+Although digital computers represent numbers in base $2$ internally, for the sake of exposition we will represent numbers in base $10$ going forward, except where necessary.
+Most of the discussion applies equally to binary representations of numbers.
+There are two types of digital representations of numbers in use.
+
+::: {.Definition #defFixedPointRep}
+
+## Fixed-point representation
+
+In *fixed-point representation*, a number is specified with a fixed number $n_1$ of places preceding the decimal point, and a fixed number $n_2$ of places after the decimal point, with $n_1+n_2 = n$.
+
+:::
+
+::: {.callout-note icon=false}
+
+## Example
+
+The set of decimal numbers representable in fixed-point representation with $n=8$ place values and $n_1=n_2=4$ is all of the numbers of the form $abcd.efgh_10$.
+
+:::
+
+::: {.Definition #defFloatingPointRep}
+
+## Floating-point representation
+
+In *floating-point representation*, a number is represented in the form $a\cdot b^c$, where $|a|<1$, $b$ is the base, and $c\in\bb{Z}$.
+$a$ is referred to as the *mantissa*, while $c$ is referred to as the $exponent$.
+
+:::
+
+::: {.callout-note icon=false}
+
+## Semilogarithmic notation
+
+Semilogarithmic notation is a notation for floating-point numbers proposed by Rutishauser, taking the form `mantissa-base-exponent` with the base as a subscript.
+For example, the number $0.23414\cdot 10^3$ is expressed as $0.23414_{10}3$.
+
+:::
+
+To express a number in floating-point notation with a finite word length $n$, $n_1$ place values must be devoted to the mantissa and $n_2$ to the exponent with $n = n_1 + n_2$.
+It is worth noting that the floating-point representation of a number, as defined here, is not unique.
+For example, $3523 = 0.3523_{10}4 = 0.03523_{10}5$.
+Uniqueness is recovered by adopting the following convention:
+
+::: {.Definition #defNormalizedFP}
+
+## Normalized floating-point representation
+
+A floating-point representation $x = a\cdot b^x$ is said to be *normalized* if the first digit of $a$ is nonzero.
+Equivalently, $b^{-1} \leq a < 1$.
+The normalized floating-point representation of a number is unique.
+If $x = a\cdot b^x$ is a normalized floating-point representation, then the digits of $a$ (excluding the leading zero) are called *significant digits*.
+
+:::
+
+::: {.callout-note icon=false}
+
+## Example
+
+$0.5462_26$ is in normalized floating-point representation, while $0.05462_27$ is not.
+
+:::
+
+
+::: {.Definition #defMachineNums}
+
+## Machine numbers
+
+For a given base $b$ and word length $n$, the set $A \subset\bb{R}$ of real numbers representable exactly in normalized floating point representation is called the set of *machine numbers*.
+
+:::
+
+While modern general-purpose digital computers use floating-point numbers for their calculations, some older hardware uses fixed-point representations, and some computational advantages can arise from it.
+From here onward, we will assume numbers are given in normalized floating-point representation.

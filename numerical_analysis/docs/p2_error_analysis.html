@@ -361,15 +361,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 <style>
-.Proof {
-  --color1: #c0c0c0;
-  --color2: #808080;
-}
-.Theorem {
-  --color1: #aed9e0;
-  --color2: #aec0e0;
-}
-.Conjecture {
+.Proposition {
   --color1: #aed9e0;
   --color2: #aec0e0;
 }
@@ -377,7 +369,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   --color1: #aed9e0;
   --color2: #aec0e0;
 }
-.Proposition {
+.Conjecture {
   --color1: #aed9e0;
   --color2: #aec0e0;
 }
@@ -388,6 +380,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 .Lemma {
   --color1: #aed9e0;
   --color2: #aec0e0;
+}
+.Theorem {
+  --color1: #aed9e0;
+  --color2: #aec0e0;
+}
+.Proof {
+  --color1: #c0c0c0;
+  --color2: #808080;
 }
 </style>
 
@@ -451,8 +451,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./p1_error_analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Error Analysis</span></a>
+            <a href="./p1_roundoff_error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Roundoff error</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 

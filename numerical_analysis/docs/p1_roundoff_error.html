@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Numerical Analysis - 1&nbsp; Digital representation of numbers</title>
+<title>Numerical Analysis - Error analysis</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./p1_fp_arithmetic.html" rel="next">
-<link href="./p1_error_analysis.html" rel="prev">
+<link href="./p1_representation.html" rel="next">
+<link href="./p0_preface.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -362,27 +362,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 <style>
-.Proof {
-  --color1: #c0c0c0;
-  --color2: #808080;
-}
 .Lemma {
-  --color1: #aed9e0;
-  --color2: #aec0e0;
-}
-.Corollary {
-  --color1: #aed9e0;
-  --color2: #aec0e0;
-}
-.Theorem {
-  --color1: #aed9e0;
-  --color2: #aec0e0;
-}
-.Definition {
-  --color1: #b2d8b0;
-  --color2: #b0d8c2;
-}
-.Proposition {
   --color1: #aed9e0;
   --color2: #aec0e0;
 }
@@ -390,10 +370,28 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   --color1: #aed9e0;
   --color2: #aec0e0;
 }
+.Definition {
+  --color1: #b2d8b0;
+  --color2: #b0d8c2;
+}
+.Proof {
+  --color1: #c0c0c0;
+  --color2: #808080;
+}
+.Theorem {
+  --color1: #aed9e0;
+  --color2: #aec0e0;
+}
+.Corollary {
+  --color1: #aed9e0;
+  --color2: #aec0e0;
+}
+.Proposition {
+  --color1: #aed9e0;
+  --color2: #aec0e0;
+}
 </style>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 
 
@@ -406,7 +404,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./p1_error_analysis.html">Error analysis</a></li><li class="breadcrumb-item"><a href="./p1_representation.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Digital representation of numbers</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./p1_roundoff_error.html">Error analysis</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -452,7 +450,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./p1_error_analysis.html" class="sidebar-item-text sidebar-link">
+            <a href="./p1_roundoff_error.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Error analysis</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -461,38 +459,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./p1_representation.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Digital representation of numbers</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./p1_fp_arithmetic.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Floating-point arithmetic</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./p1_error_propagation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Propagation of errors</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./p1_stability.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Numerical stability</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./p1_interval_arithmetic.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Interval arithmetic</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./p1_statistical_roundoff.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Statistical roundoff estimation</span></span></a>
+  <a href="./p1_representation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Representation of Numbers</span></span></a>
   </div>
 </li>
       </ul>
@@ -509,30 +477,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./p2_lagrange.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Lagrange Interpolation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Lagrange Interpolation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./p2_error_analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Error analysis of polynomial interpolation</span></span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a href="./p3_rootfinding.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Rootfinding</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./p3_bisection.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Bisection method</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Error analysis of polynomial interpolation</span></span></a>
   </div>
 </li>
       </ul>
@@ -550,7 +501,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Digital representation of numbers</span></h1>
+<h1 class="title">Error analysis</h1>
 </div>
 
 
@@ -565,65 +516,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 </header>
 
-<p>A fundamental limitation of digital computers is that they must represent real numbers with finite resources. A computer typically uses a fixed finite number <span class="math inline">\(n\)</span> of places to represent a number, which we refer to as the <em>word length</em>. The word length is typically determined at the hardware level. The maximum word length has evolved alongside the proliferation of digital computing. <span class="math inline">\(8\)</span>-bit microprocessors were the first widely used microprocessors in the computer industry, and could store binary representations of numbers with a maximum word length of <span class="math inline">\(8\)</span>. In the modern era <span class="math inline">\(64\)</span>-bit processing is widespread, and can represent numbers with a maximum word length of <span class="math inline">\(64\)</span>. Methods exist to represent numbers with a higher precision by augmenting the word length. For instance, in a <span class="math inline">\(32\)</span>-bit processor one can use <span class="math inline">\(32\)</span> binary bits to represent a number, yielding something known as <em>single-precision format.</em> Extending this to <span class="math inline">\(64\)</span> bits yields representations of numbers in <em>double-precision format.</em></p>
-<p>Although digital computers represent numbers in base <span class="math inline">\(2\)</span> internally, for the sake of exposition we will represent numbers in base <span class="math inline">\(10\)</span> going forward, except where necessary. Most of the discussion applies equally to binary representations of numbers. There are two types of digital representations of numbers in use.</p>
-<div id="defFixedPointRep" class="Definition" title="Fixed-point representation">
-<p></p><details class="Definition fbx-simplebox fbx-default" open=""><summary><strong>Definition 1.1: </strong>Fixed-point representation</summary><div>In <em>fixed-point representation</em>, a number is specified with a fixed number <span class="math inline">\(n_1\)</span> of places preceding the decimal point, and a fixed number <span class="math inline">\(n_2\)</span> of places after the decimal point, with <span class="math inline">\(n_1+n_2 = n\)</span>.<p></p>
-</div></details>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Example
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The set of decimal numbers representable in fixed-point representation with <span class="math inline">\(n=8\)</span> place values and <span class="math inline">\(n_1=n_2=4\)</span> is all of the numbers of the form <span class="math inline">\(abcd.efgh_10\)</span>.</p>
-</div>
-</div>
-<div id="defFloatingPointRep" class="Definition" title="Floating-point representation">
-<p></p><details class="Definition fbx-simplebox fbx-default" open=""><summary><strong>Definition 1.2: </strong>Floating-point representation</summary><div>In <em>floating-point representation</em>, a number is represented in the form <span class="math inline">\(a\cdot b^c\)</span>, where <span class="math inline">\(|a|&lt;1\)</span>, <span class="math inline">\(b\)</span> is the base, and <span class="math inline">\(c\in\bb{Z}\)</span>. <span class="math inline">\(a\)</span> is referred to as the <em>mantissa</em>, while <span class="math inline">\(c\)</span> is referred to as the <span class="math inline">\(exponent\)</span>.<p></p>
-</div></details>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Semilogarithmic notation
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Semilogarithmic notation is a notation for floating-point numbers proposed by Rutishauser, taking the form <code>mantissa-base-exponent</code> with the base as a subscript. For example, the number <span class="math inline">\(0.23414\cdot 10^3\)</span> is expressed as <span class="math inline">\(0.23414_{10}3\)</span>.</p>
-</div>
-</div>
-<p>To express a number in floating-point notation with a finite word length <span class="math inline">\(n\)</span>, <span class="math inline">\(n_1\)</span> place values must be devoted to the mantissa and <span class="math inline">\(n_2\)</span> to the exponent with <span class="math inline">\(n = n_1 + n_2\)</span>. It is worth noting that the floating-point representation of a number, as defined here, is not unique. For example, <span class="math inline">\(3523 = 0.3523_{10}4 = 0.03523_{10}5\)</span>. Uniqueness is recovered by adopting the following convention:</p>
-<div id="defNormalizedFP" class="Definition" title="Normalized floating-point representation">
-<p></p><details class="Definition fbx-simplebox fbx-default" open=""><summary><strong>Definition 1.3: </strong>Normalized floating-point representation</summary><div>A floating-point representation <span class="math inline">\(x = a\cdot b^x\)</span> is said to be <em>normalized</em> if the first digit of <span class="math inline">\(a\)</span> is nonzero. Equivalently, <span class="math inline">\(b^{-1} \leq a &lt; 1\)</span>. The normalized floating-point representation of a number is unique. If <span class="math inline">\(x = a\cdot b^x\)</span> is a normalized floating-point representation, then the digits of <span class="math inline">\(a\)</span> (excluding the leading zero) are called <em>significant digits</em>.<p></p>
-</div></details>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Example
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><span class="math inline">\(0.5462_26\)</span> is in normalized floating-point representation, while <span class="math inline">\(0.05462_27\)</span> is not.</p>
-</div>
-</div>
-<div id="defMachineNums" class="Definition" title="Machine numbers">
-<p></p><details class="Definition fbx-simplebox fbx-default" open=""><summary><strong>Definition 1.4: </strong>Machine numbers</summary><div>For a given base <span class="math inline">\(b\)</span> and word length <span class="math inline">\(n\)</span>, the set <span class="math inline">\(A \subset\bb{R}\)</span> of real numbers representable exactly in normalized floating point representation is called the set of <em>machine numbers</em>.<p></p>
-</div></details>
-</div>
-<p>While modern general-purpose digital computers use floating-point numbers for their calculations, some older hardware uses fixed-point representations, and some computational advantages can arise from it. From here onward, we will assume numbers are given in normalized floating-point representation.</p>
+<p>A study of numerical analysis must begin by addressing the assessment of errors. Errors arise from various sources and propagate through the course of a numerical method. Broadly speaking, we come across three types of errors in numerical analysis:</p>
+<ol type="1">
+<li>Data errors:
+<ol type="a">
+<li>These errors are present in the inputs and are beyond the control of the numerics. They may arise, for instance, due to physical imperfections in measuring devices.</li>
+</ol></li>
+<li>Roundoff errors:
+<ol start="2" type="a">
+<li>These errors result from the fact that digital computers cannot represent real numbers to infinitesimal precision. To an extent this is a hardware limitation, but sometimes we incur roundoff errors intentionally to achieve better efficiency.</li>
+</ol></li>
+<li>Approximation errors:
+<ol start="3" type="a">
+<li>These errors arise from the limitations of the numerical method itself. They include truncation errors from a finite pursuit of an approximation scheme, or discretization errors arising from how one divides up a continuous region into discrete subregions.</li>
+</ol></li>
+</ol>
+<p>In this chapter, we focus on the analysis of roundoff errors. The analysis of approximation errors is relegated to later chapters, as they are specific to each approximation method. Many numerical schemes can, theoretically, be continued indefinitely to reach arbitrary precision. However, the presence of roundoff errors means that after a certain point, roundoff errors can either dominate the approximation error or propagate through the numerical scheme and poison the scheme’s precision. Therefore roundoff errors often present a practical barrier to the precision of a numerical scheme. As this limitation exists for all approximation algorithms implemented in a digital computer, it is an important baseline to cover before any specific approximation algorithm is introduced.</p>
+<p>Digital algorithms must always contend with the limitations of their ability to represent numbers, and this also leads to accumulation of errors over the course of an algorithm’s execution. Understanding the propagation of errors through an algorithm is therefore another critical prerequisite to designing good numerical methods. We will show that operations that seem equivalent in the continuum fail to be equivalent in the digital world, leading to a need for care when using computers to complete a given task.</p>
 
 
 
@@ -863,13 +772,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./p1_error_analysis.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Error analysis</span>
+      <a href="./p0_preface.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./p1_fp_arithmetic.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Floating-point arithmetic</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./p1_representation.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Representation of Numbers</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

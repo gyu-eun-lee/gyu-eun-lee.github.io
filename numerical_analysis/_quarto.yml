@@ -17,10 +17,18 @@ book:
       - part: p1_error_analysis.qmd
         chapters:
           - p1_representation.qmd
+          - p1_fp_arithmetic.qmd
+          - p1_error_propagation.qmd
+          - p1_stability.qmd
+          - p1_interval_arithmetic.qmd
+          - p1_statistical_roundoff.qmd
       - part: p2_polynomial_interpolation.qmd
         chapters:
           - p2_lagrange.qmd
           - p2_error_analysis.qmd
+      - part: p3_rootfinding.qmd
+        chapters:
+          - p3_bisection.qmd
 
 bibliography:
     - references.bib

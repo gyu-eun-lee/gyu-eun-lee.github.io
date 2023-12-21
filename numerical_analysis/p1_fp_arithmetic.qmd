@@ -1,0 +1,42 @@
+# Fundamentals of floating-point calculations
+
+## Rounding
+
+Because the set of machine numbers for fixed computing resources is finite, the first task we must contend with when defining mathematics on a digital computer is that of converting real numbers to machine numbers.
+
+For what follows, let $A$ denote the set of machine numbers.
+We set out to define a function $\operatorname{fl}:\mathbb{R}\to A$ that converts a real number $x$ to the machine number that best approximates $x$.
+
+There are two strategies in use for converting a real number $x$ to a machine-number approximation $\operatorname{fl}(x)$:
+
+
+1. **Round-to-nearest:** $x$ is approximated by the machine number closest to $x$.
+
+2. **Round-by-chop:** $x$ is approximated by the machine number closest to $x$ not exceeding $x$.
+
+::: {.callout-note icon=false}
+
+## Example
+
+If the maximum number of significant digits is $4$, then the number $43.146$ is not a machine number.
+Round-by-chop produces $43.14$, while round-to-nearest produces $43.15$.
+
+:::
+
+Most modern digital computers use round-to-nearest, as it produces smaller roundoff errors on average.
+Round-by-chop has the advantage of being computationally faster.
+Round-to-nearest is used in the IEEE standard.
+
+::: {.callout-warning icon=false}
+
+Round-to-nearest rules for certain bases have to impose a tiebreaker rule if there are two equidistant candidates for the closest machine number to $x$.
+Different tiebreaker rules exist; one example is to always round so that the last stored digit is even.
+Careful design of tiebreaker rules is warranted because certain tiebreaker rules are biased up or down systematically, and such biases can be accumulated over long calculations.
+
+:::
+
+We will assume moving forward that round-to-nearest is our strategy for defining $\operatorname{fl}$.
+
+## Overflow and underflow
+
+## Floating-point arithmetic

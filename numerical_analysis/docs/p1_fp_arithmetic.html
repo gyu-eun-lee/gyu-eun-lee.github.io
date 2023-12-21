@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Numerical Analysis - 1&nbsp; Digital representation of numbers</title>
+<title>Numerical Analysis - 2&nbsp; Fundamentals of floating-point calculations</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./p1_fp_arithmetic.html" rel="next">
-<link href="./p1_error_analysis.html" rel="prev">
+<link href="./p1_error_propagation.html" rel="next">
+<link href="./p1_representation.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -362,11 +362,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 <style>
-.Proof {
-  --color1: #c0c0c0;
-  --color2: #808080;
-}
-.Lemma {
+.Conjecture {
   --color1: #aed9e0;
   --color2: #aec0e0;
 }
@@ -378,15 +374,19 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   --color1: #aed9e0;
   --color2: #aec0e0;
 }
+.Lemma {
+  --color1: #aed9e0;
+  --color2: #aec0e0;
+}
+.Proof {
+  --color1: #c0c0c0;
+  --color2: #808080;
+}
 .Definition {
   --color1: #b2d8b0;
   --color2: #b0d8c2;
 }
 .Proposition {
-  --color1: #aed9e0;
-  --color2: #aec0e0;
-}
-.Conjecture {
   --color1: #aed9e0;
   --color2: #aec0e0;
 }
@@ -406,7 +406,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./p1_error_analysis.html">Error analysis</a></li><li class="breadcrumb-item"><a href="./p1_representation.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Digital representation of numbers</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./p1_error_analysis.html">Error analysis</a></li><li class="breadcrumb-item"><a href="./p1_fp_arithmetic.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Fundamentals of floating-point calculations</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -461,14 +461,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./p1_representation.html" class="sidebar-item-text sidebar-link active">
+  <a href="./p1_representation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Digital representation of numbers</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./p1_fp_arithmetic.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Floating-point arithmetic</span></span></a>
+  <a href="./p1_fp_arithmetic.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Fundamentals of floating-point calculations</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -543,14 +543,22 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#rounding" id="toc-rounding" class="nav-link active" data-scroll-target="#rounding"><span class="header-section-number">2.1</span> Rounding</a></li>
+  <li><a href="#overflow-and-underflow" id="toc-overflow-and-underflow" class="nav-link" data-scroll-target="#overflow-and-underflow"><span class="header-section-number">2.2</span> Overflow and underflow</a></li>
+  <li><a href="#floating-point-arithmetic" id="toc-floating-point-arithmetic" class="nav-link" data-scroll-target="#floating-point-arithmetic"><span class="header-section-number">2.3</span> Floating-point arithmetic</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Digital representation of numbers</span></h1>
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Fundamentals of floating-point calculations</span></h1>
 </div>
 
 
@@ -565,12 +573,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 </header>
 
-<p>A fundamental limitation of digital computers is that they must represent real numbers with finite resources. A computer typically uses a fixed finite number <span class="math inline">\(n\)</span> of places to represent a number, which we refer to as the <em>word length</em>. The word length is typically determined at the hardware level. The maximum word length has evolved alongside the proliferation of digital computing. <span class="math inline">\(8\)</span>-bit microprocessors were the first widely used microprocessors in the computer industry, and could store binary representations of numbers with a maximum word length of <span class="math inline">\(8\)</span>. In the modern era <span class="math inline">\(64\)</span>-bit processing is widespread, and can represent numbers with a maximum word length of <span class="math inline">\(64\)</span>. Methods exist to represent numbers with a higher precision by augmenting the word length. For instance, in a <span class="math inline">\(32\)</span>-bit processor one can use <span class="math inline">\(32\)</span> binary bits to represent a number, yielding something known as <em>single-precision format.</em> Extending this to <span class="math inline">\(64\)</span> bits yields representations of numbers in <em>double-precision format.</em></p>
-<p>Although digital computers represent numbers in base <span class="math inline">\(2\)</span> internally, for the sake of exposition we will represent numbers in base <span class="math inline">\(10\)</span> going forward, except where necessary. Most of the discussion applies equally to binary representations of numbers. There are two types of digital representations of numbers in use.</p>
-<div id="defFixedPointRep" class="Definition" title="Fixed-point representation">
-<p></p><details class="Definition fbx-simplebox fbx-default" open=""><summary><strong>Definition 1.1: </strong>Fixed-point representation</summary><div>In <em>fixed-point representation</em>, a number is specified with a fixed number <span class="math inline">\(n_1\)</span> of places preceding the decimal point, and a fixed number <span class="math inline">\(n_2\)</span> of places after the decimal point, with <span class="math inline">\(n_1+n_2 = n\)</span>.<p></p>
-</div></details>
-</div>
+<section id="rounding" class="level2" data-number="2.1">
+<h2 data-number="2.1" data-anchor-id="rounding"><span class="header-section-number">2.1</span> Rounding</h2>
+<p>Because the set of machine numbers for fixed computing resources is finite, the first task we must contend with when defining mathematics on a digital computer is that of converting real numbers to machine numbers.</p>
+<p>For what follows, let <span class="math inline">\(A\)</span> denote the set of machine numbers. We set out to define a function <span class="math inline">\(\operatorname{fl}:\mathbb{R}\to A\)</span> that converts a real number <span class="math inline">\(x\)</span> to the machine number that best approximates <span class="math inline">\(x\)</span>.</p>
+<p>There are two strategies in use for converting a real number <span class="math inline">\(x\)</span> to a machine-number approximation <span class="math inline">\(\operatorname{fl}(x)\)</span>:</p>
+<ol type="1">
+<li><p><strong>Round-to-nearest:</strong> <span class="math inline">\(x\)</span> is approximated by the machine number closest to <span class="math inline">\(x\)</span>.</p></li>
+<li><p><strong>Round-by-chop:</strong> <span class="math inline">\(x\)</span> is approximated by the machine number closest to <span class="math inline">\(x\)</span> not exceeding <span class="math inline">\(x\)</span>.</p></li>
+</ol>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -581,51 +592,33 @@ Example
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The set of decimal numbers representable in fixed-point representation with <span class="math inline">\(n=8\)</span> place values and <span class="math inline">\(n_1=n_2=4\)</span> is all of the numbers of the form <span class="math inline">\(abcd.efgh_10\)</span>.</p>
+<p>If the maximum number of significant digits is <span class="math inline">\(4\)</span>, then the number <span class="math inline">\(43.146\)</span> is not a machine number. Round-by-chop produces <span class="math inline">\(43.14\)</span>, while round-to-nearest produces <span class="math inline">\(43.15\)</span>.</p>
 </div>
 </div>
-<div id="defFloatingPointRep" class="Definition" title="Floating-point representation">
-<p></p><details class="Definition fbx-simplebox fbx-default" open=""><summary><strong>Definition 1.2: </strong>Floating-point representation</summary><div>In <em>floating-point representation</em>, a number is represented in the form <span class="math inline">\(a\cdot b^c\)</span>, where <span class="math inline">\(|a|&lt;1\)</span>, <span class="math inline">\(b\)</span> is the base, and <span class="math inline">\(c\in\bb{Z}\)</span>. <span class="math inline">\(a\)</span> is referred to as the <em>mantissa</em>, while <span class="math inline">\(c\)</span> is referred to as the <span class="math inline">\(exponent\)</span>.<p></p>
-</div></details>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
+<p>Most modern digital computers use round-to-nearest, as it produces smaller roundoff errors on average. Round-by-chop has the advantage of being computationally faster. Round-to-nearest is used in the IEEE standard.</p>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Semilogarithmic notation
+Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Semilogarithmic notation is a notation for floating-point numbers proposed by Rutishauser, taking the form <code>mantissa-base-exponent</code> with the base as a subscript. For example, the number <span class="math inline">\(0.23414\cdot 10^3\)</span> is expressed as <span class="math inline">\(0.23414_{10}3\)</span>.</p>
+<p>Round-to-nearest rules for certain bases have to impose a tiebreaker rule if there are two equidistant candidates for the closest machine number to <span class="math inline">\(x\)</span>. Different tiebreaker rules exist; one example is to always round so that the last stored digit is even. Careful design of tiebreaker rules is warranted because certain tiebreaker rules are biased up or down systematically, and such biases can be accumulated over long calculations.</p>
 </div>
 </div>
-<p>To express a number in floating-point notation with a finite word length <span class="math inline">\(n\)</span>, <span class="math inline">\(n_1\)</span> place values must be devoted to the mantissa and <span class="math inline">\(n_2\)</span> to the exponent with <span class="math inline">\(n = n_1 + n_2\)</span>. It is worth noting that the floating-point representation of a number, as defined here, is not unique. For example, <span class="math inline">\(3523 = 0.3523_{10}4 = 0.03523_{10}5\)</span>. Uniqueness is recovered by adopting the following convention:</p>
-<div id="defNormalizedFP" class="Definition" title="Normalized floating-point representation">
-<p></p><details class="Definition fbx-simplebox fbx-default" open=""><summary><strong>Definition 1.3: </strong>Normalized floating-point representation</summary><div>A floating-point representation <span class="math inline">\(x = a\cdot b^x\)</span> is said to be <em>normalized</em> if the first digit of <span class="math inline">\(a\)</span> is nonzero. Equivalently, <span class="math inline">\(b^{-1} \leq a &lt; 1\)</span>. The normalized floating-point representation of a number is unique. If <span class="math inline">\(x = a\cdot b^x\)</span> is a normalized floating-point representation, then the digits of <span class="math inline">\(a\)</span> (excluding the leading zero) are called <em>significant digits</em>.<p></p>
-</div></details>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Example
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><span class="math inline">\(0.5462_26\)</span> is in normalized floating-point representation, while <span class="math inline">\(0.05462_27\)</span> is not.</p>
-</div>
-</div>
-<div id="defMachineNums" class="Definition" title="Machine numbers">
-<p></p><details class="Definition fbx-simplebox fbx-default" open=""><summary><strong>Definition 1.4: </strong>Machine numbers</summary><div>For a given base <span class="math inline">\(b\)</span> and word length <span class="math inline">\(n\)</span>, the set <span class="math inline">\(A \subset\bb{R}\)</span> of real numbers representable exactly in normalized floating point representation is called the set of <em>machine numbers</em>.<p></p>
-</div></details>
-</div>
-<p>While modern general-purpose digital computers use floating-point numbers for their calculations, some older hardware uses fixed-point representations, and some computational advantages can arise from it. From here onward, we will assume numbers are given in normalized floating-point representation.</p>
+<p>We will assume moving forward that round-to-nearest is our strategy for defining <span class="math inline">\(\operatorname{fl}\)</span>.</p>
+</section>
+<section id="overflow-and-underflow" class="level2" data-number="2.2">
+<h2 data-number="2.2" data-anchor-id="overflow-and-underflow"><span class="header-section-number">2.2</span> Overflow and underflow</h2>
+</section>
+<section id="floating-point-arithmetic" class="level2" data-number="2.3">
+<h2 data-number="2.3" data-anchor-id="floating-point-arithmetic"><span class="header-section-number">2.3</span> Floating-point arithmetic</h2>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -863,13 +856,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./p1_error_analysis.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Error analysis</span>
+      <a href="./p1_representation.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Digital representation of numbers</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./p1_fp_arithmetic.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Floating-point arithmetic</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./p1_error_propagation.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Propagation of errors</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

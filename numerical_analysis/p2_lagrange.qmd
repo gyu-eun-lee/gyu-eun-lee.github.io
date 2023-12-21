@@ -226,75 +226,75 @@ A practical implementation of Lagrange interpolation using the barycentric formu
 
 We now showcase some numerical examples of Lagrange interpolation in action.
 
-```{python}
+```{julia}
 #| fig-cap: "Imports"
 
-import numpy as np
-import numpy.typing as npt
-from matplotlib import pyplot as plt
-import time
-from random import random
+using InvertedIndices
+using Plots
+using LaTeXStrings
+using Printf
+using BenchmarkTools
+using LinearAlgebra
 
 ```
 
-```{python}
+```{julia}
 
-def lagrange_polynomial(X: npt.NDArray[np.float64], F: npt.NDArray[np.float64]):
-    def poly(x):
-        L = np.ones(len(X))
-        for j in range(len(X)):
-            L[j] = np.prod(np.divide(x-X, X[j]-X, out=np.ones(len(X)), where=X!=X[j]))
-        return np.dot(F,L)
+function lagrangeBasis(X::Vector{Float64})
+    function basisPoly(x)::Vector{Float64}
+        L = Vector{Float64}(undef,length(X))
+        for i in eachindex(X)
+            L[i] = prod((x.-X[Not(i)]) ./ (X[i].-X[Not(i)]))
+        end
+        return L
+    end
+    return basisPoly
+end
+
+function lagrange(X::Vector{Float64},F::Vector{Float64})
+    function poly(x)::Float64
+        return lagrangeBasis(X)(x) ⋅ F
+    end
     return poly
+end
 ```
 
-```{python}
+```{julia}
 
-#| fig-cap: "Lagrange interpolation of exp(-x^2) with 7 support points"
-
-X = np.linspace(-5,5,7)
-F = np.exp(-np.square(X))
-P = lagrange_polynomial(X,F)
-
-T = np.linspace(-5.1,5.1,200)
-y = [P(t) for t in T]
-
-plt.plot(T, np.exp(-np.square(T)), label='exp(-x^2)')
-plt.plot(T, y, label='Interpolated')
-plt.plot(X, F, 'o', label='Support points')
-plt.title('Lagrange interpolation for f(x) = exp(-x^2)')
-plt.xlabel('x')
-plt.ylabel('y')
-plt.grid()
-plt.legend()
-plt.show()
+T = LinRange(-5.1, 5.1,200)
+plot(T, exp.(-T.^2), label=L"$\exp(-x^2)$", lw=2)
+nPts=9
+X = collect(LinRange(-5.0, 5.0, nPts))
+F = exp.(-X.^2)
+plot!(X, F, seriestype=:scatter, label="Support points")
+plot!(T, lagrange(X,F).(T), label=@sprintf("nPts=%d", nPts), lw=1, ls=:dash)
+plot!(legend=:bottom)
+title!(L"Lagrange interpolation for $f(x) = \exp(-x^2)$")
+xlabel!(L"x")
+ylabel!(L"y")
+current()
 
 ```
 
 Our first example implements the original Lagrange interpolation formula.
-We sample $7$ evenly spaced points from the function $e^{-x^2}$ on the interval $[-5,5]$ and plot the degree-$6$ Lagrange interpolant.
+We sample $9$ evenly spaced points from the function $e^{-x^2}$ on the interval $[-5,5]$ and plot the degree-$6$ Lagrange interpolant.
 We see that the Lagrange interpolant performs reasonably well in the interior of the interval, but produces large errors as we move toward the edges of the interval.
 Outside the interval containing the support points, the error diverges to $\infty$.
 
-```{python}
+```{julia}
 
-#| fig-cap: "Lagrange interpolation with increasing number of support points"
-
-T = np.linspace(-5.1,5.1,200)
-plt.plot(T, np.exp(-np.square(T)), label='exp(-x^2)')
-
-for N in range(5,15,4):
-    X = np.linspace(-5,5,N)
-    F = np.exp(-np.square(X))
-    P = lagrange_polynomial(X,F)
-    y = [P(t) for t in T]
-    plt.plot(T, y, '--', label='Degree {deg}'.format(deg=N-1))
-plt.title('Approximation accuracy vs. support points')
-plt.xlabel('x')
-plt.ylabel('y')
-plt.grid()
-plt.legend()
-plt.show()
+T = LinRange(-5.1, 5.1,200)
+plot(T, exp.(-T.^2), label=L"$\exp(-x^2)$", lw=2)
+for nPts in 5:4:13
+    local X = collect(LinRange(-5.0, 5.0, nPts))
+    local F = exp.(-X.^2)
+    plot!(T, lagrange(X,F).(T), label=@sprintf("nPts=%d", nPts), lw=1, ls=:dash)
+end
+plot!(legend=:bottom)
+title!("Approximation performance vs. support points")
+xlabel!(L"x")
+ylabel!(L"y")
+current()
 
 ```
 
@@ -323,84 +323,127 @@ In particular, there is a tendency for the approximation error to worsen near th
 
 :::
 
-```{python}
+## Performance evaluation
 
-def barycentric_weights(X: npt.NDArray[np.float64]):
-    W = np.ones(len(X))
-    for j in range(len(X)):
-        W[j] = 1 / np.prod(X[j]-X, where=X!=X[j])
+Lastly, we benchmark the speed of evaluation of the different forms of the Lagrange polynomial, and examine the dependence on the number of support points.
+
+```{julia}
+
+function barycentric_weights(X::Vector{Float64})::Vector{Float64}
+    W = Vector{Float64}(undef, length(X))
+    for i in eachindex(X)
+        W[i] = 1.0 / prod(X[i].-X[Not(i)])
+    end
     return W
+end
 
-def first_barycentric(X: npt.NDArray[np.float64], F: npt.NDArray[np.float64]):
-    W = barycentric_weights(X)
-    def poly(x):
-        return np.prod(x-X) * np.dot(F, np.divide(W, x-X, out=np.copy(F), where=x!=X))
+function first_barycentric(X::Vector{Float64}, F::Vector{Float64})
+    W::Vector{Float64} = barycentric_weights(X)
+    function poly(x)::Float64
+        if x in X
+            return F[findfirst(==(x), X)]
+        end
+        return prod(x.-X) * W ./ (x.-X) ⋅ F
+    end
     return poly
+end
 
-def second_barycentric(X: npt.NDArray[np.float64], F: npt.NDArray[np.float64]):
-    W = barycentric_weights(X)
-    def poly(x):
-        return np.dot(F,np.divide(W, x-X, out=np.copy(F), where=x!=X)) / np.sum(np.divide(W, x-X, out=np.copy(F), where=x!=X))
+function second_barycentric(X::Vector{Float64}, F::Vector{Float64})
+    W::Vector{Float64} = barycentric_weights(X)
+    function poly(x)::Float64
+        if x in X
+            return F[findfirst(==(x), X)]
+        end
+        return W ./ (x.-X) ⋅ F / sum(W ./ (x.-X))
+    end
     return poly
-```
-
-```{python}
-
-#| fig-cap: "Performance comparison of Lagrange interpolation implementations"
-
-minPoints = 10
-maxPoints = 151
-step = 5
-
-numTrials = 500
-
-sptPts = np.arange(minPoints, maxPoints, step, dtype=int)
-
-base_time = np.empty(0, dtype=float)
-for N in sptPts:
-    X = np.linspace(-5,5,N)
-    F = np.exp(-np.square(X))
-    P = lagrange_polynomial(X,F)
-    st = time.process_time()
-    for i in range(numTrials):
-        P(random())
-    et = time.process_time()
-    base_time = np.append(base_time, et-st)
-
-first_bary_time = np.empty(0, dtype=float)
-for N in sptPts:
-    X = np.linspace(-5,5,N)
-    F = np.exp(-np.square(X))
-    P = first_barycentric(X,F)
-    st = time.process_time()
-    for i in range(numTrials):
-        P(random())
-    et = time.process_time()
-    first_bary_time = np.append(first_bary_time, et-st)
-
-second_bary_time = np.empty(0, dtype=float)
-for N in sptPts:
-    X = np.linspace(-5,5,N)
-    F = np.exp(-np.square(X))
-    P = second_barycentric(X,F)
-    st = time.process_time()
-    for i in range(numTrials):
-        P(random())
-    et = time.process_time()
-    second_bary_time = np.append(second_bary_time, et-st)
-
-plt.plot(sptPts, base_time, 'o', fillstyle='none', label='base')
-plt.plot(sptPts, first_bary_time, '<', fillstyle='none', label='first barycentric form')
-plt.plot(sptPts, second_bary_time, '>', fillstyle='none', label='second barycentric form')
-plt.title('Evaluation time vs. support points')
-plt.xlabel('Support points')
-plt.ylabel('CPU time (s)')
-plt.grid()
-plt.legend()
-plt.show()
+end
 
 ```
 
-Lastly, we test the speed of evaluation of the Lagrange polynomial for the three formulas we have provided.
-We use the three formulas to compute $P(x)$ for evenly spaced support points numbering from $10$ to $150$, and compute the time each formula takes to evaluate $P(x)$ for $500$ uniformly random values of $x$ in $[0,1]$.
-We find that using the original formula for Lagrange interpolation incurs a fairly significant running time penalty as the number of support points grows, while the first and second barycentric formulas manage to maintain consistent running times.
+### 10 support points
+
+```{julia}
+
+nPts = 10::Int
+
+print(@sprintf("Standard Lagrange polynomial, %d support points", nPts))
+
+X = collect(LinRange(-5.0, 5.0, nPts))
+F = exp.(-X.^2)
+lagrange_standard = lagrange(X,F)
+@benchmark lagrange_standard(randn())
+
+```
+
+```{julia}
+
+nPts = 10::Int
+
+print(@sprintf("First barycentric form, %d support points", nPts))
+
+X = collect(LinRange(-5.0, 5.0, nPts))
+F = exp.(-X.^2)
+first_bary = first_barycentric(X,F)
+@benchmark first_bary(randn())
+
+```
+
+```{julia}
+
+nPts = 10::Int
+
+print(@sprintf("Second barycentric form, %d support points", nPts))
+
+X = collect(LinRange(-5.0, 5.0, nPts))
+F = exp.(-X.^2)
+second_bary = second_barycentric(X,F)
+@benchmark second_bary(randn())
+
+```
+
+Benchmarking on 10 support points, we find that the first and second barycentric forms already outperform the standard form of the Lagrange polynomial significantly on both running time and memory usage.
+Again, this reflects the fact that evaluating the Lagrange basis polynomials $L_j$ is an expensive operation.
+
+### 100 support points
+
+```{julia}
+
+nPts = 100::Int
+
+print(@sprintf("Standard Lagrange polynomial, %d support points", nPts))
+
+X = collect(LinRange(-5.0, 5.0, nPts))
+F = exp.(-X.^2)
+lagrange_standard = lagrange(X,F)
+@benchmark lagrange_standard(randn())
+
+```
+
+```{julia}
+
+nPts = 100::Int
+
+print(@sprintf("First barycentric form, %d support points", nPts))
+
+X = collect(LinRange(-5.0, 5.0, nPts))
+F = exp.(-X.^2)
+first_bary = first_barycentric(X,F)
+@benchmark first_bary(randn())
+
+```
+
+```{julia}
+
+nPts = 100::Int
+
+print(@sprintf("Second barycentric form, %d support points", nPts))
+
+X = collect(LinRange(-5.0, 5.0, nPts))
+F = exp.(-X.^2)
+second_bary = second_barycentric(X,F)
+@benchmark second_bary(randn())
+
+```
+
+Increasing the number of support points to 100 shows that the standard form of the Lagrange formula scales poorly, but the barycentric forms remain efficient to evaluate.

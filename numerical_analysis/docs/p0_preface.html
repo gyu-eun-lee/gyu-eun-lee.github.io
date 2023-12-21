@@ -135,6 +135,7 @@ ul.task-list li input[type="checkbox"] {
 \newcommand{\mcal}[1]{\mathcal{#1}}
 \newcommand{\bb}[1]{\mathbb{#1}}
 \newcommand{\mbf}[1]{\mathbf{#1}}
+\newcommand{\ol}[1]{\overline{#1}}
 \newcommand{\emp}{\varnothing}
 \]</span></p>
 </div>
@@ -380,25 +381,33 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 <style>
-.Theorem {
-  --color1: #948bde;
-  --color2: #584eab;
-}
-.Corollary {
-  --color1: #948bde;
-  --color2: #584eab;
-}
-.Conjecture {
-  --color1: #948bde;
-  --color2: #584eab;
-}
 .Definition {
-  --color1: #948bde;
-  --color2: #584eab;
+  --color1: #b2d8b0;
+  --color2: #b0d8c2;
 }
 .Proof {
   --color1: #c0c0c0;
   --color2: #808080;
+}
+.Theorem {
+  --color1: #aed9e0;
+  --color2: #aec0e0;
+}
+.Conjecture {
+  --color1: #aed9e0;
+  --color2: #aec0e0;
+}
+.Corollary {
+  --color1: #aed9e0;
+  --color2: #aec0e0;
+}
+.Proposition {
+  --color1: #aed9e0;
+  --color2: #aec0e0;
+}
+.Lemma {
+  --color1: #aed9e0;
+  --color2: #aec0e0;
 }
 </style>
 
@@ -461,7 +470,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./p1_error_analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Error Analysis</span></a>
+ <span class="menu-text">Error analysis</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -470,7 +479,37 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./p1_representation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Representation of Numbers</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Digital representation of numbers</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./p1_fp_arithmetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Floating-point arithmetic</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./p1_error_propagation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Propagation of errors</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./p1_stability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Numerical stability</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./p1_interval_arithmetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Interval arithmetic</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./p1_statistical_roundoff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Statistical roundoff estimation</span></span></a>
   </div>
 </li>
       </ul>
@@ -487,13 +526,30 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./p2_lagrange.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Lagrange Interpolation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Lagrange Interpolation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./p2_error_analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Error analysis of polynomial interpolation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Error analysis of polynomial interpolation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./p3_rootfinding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rootfinding</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./p3_bisection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Bisection method</span></span></a>
   </div>
 </li>
       </ul>
@@ -536,9 +592,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <p>These notes draw from the following sources:</p>
 <section id="references" class="level3">
 <h3 data-anchor-id="references">References</h3>
-<div id="refs" class="references csl-bib-body" role="list" style="display: none">
+<div id="refs" class="references csl-bib-body" role="list">
 <div id="ref-StBu02" class="csl-entry" role="listitem">
-<div class="csl-left-margin">1. </div><div class="csl-right-inline">Stoer J, Bulirsch R (2002) <a href="https://doi.org/10.1007/978-0-387-21738-3">Introduction to numerical analysis</a>, Springer-Verlag, New York.</div>
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Stoer J, Bulirsch R (2002) <a href="https://doi.org/10.1007/978-0-387-21738-3">Introduction to
+numerical analysis</a>, Springer-Verlag, New York.</div>
 </div>
 </div>
 
@@ -787,7 +844,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
   <div class="nav-page nav-page-next">
       <a href="./p1_error_analysis.html" class="pagination-link">
-        <span class="nav-page-text">Error Analysis</span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text">Error analysis</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
